@@ -1,4 +1,4 @@
-![](https://github.com/FPGAwars/tools-oss-cad-suite/raw/main/wiki/Logos/Apio-tool-oss-cad-suite-github.png)
+[![](https://github.com/FPGAwars/tools-oss-cad-suite/raw/main/wiki/Logos/Apio-tool-oss-cad-suite-github.png)](https://github.com/FPGAwars/tools-oss-cad-suite/wiki)
 
 # Tools-oss-cad-suite
 
