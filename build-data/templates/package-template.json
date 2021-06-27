@@ -1,0 +1,7 @@
+{
+  "name":"tools-oss-cad-suite",
+  "description":"oss cad suite tools",
+  "url":"https://github.com/FPGAwars/tools-oss-cad-suite/releases",
+  "version": %VERSION%,
+  "system": [ %SYSTEM% ]
+}
