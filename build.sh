@@ -15,6 +15,7 @@ export LC_ALL=C
 
 # -- Tool name
 NAME=oss-cad-suite
+VERSION=0.0.1
 
 YEAR=2021
 MONTH=06
@@ -27,6 +28,12 @@ EXT="tgz"
 URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
 FILENAME_SRC="oss-cad-suite-$ARCH-$FILE_TAG.$EXT"
 URL=$URL_BASE/$RELEASE_TAG/$FILENAME_SRC
+
+TOOL_SYSTEM_VERSION=1.1.2
+TOOL_SYSTEM_URL_BASE=https://github.com/FPGAwars/tools-system/releases/download/v$TOOL_SYSTEM_VERSION
+TOOL_SYSTEM_ARCH=linux_x86_64
+TOOL_SYSTEM_TAR="tools-system-$TOOL_SYSTEM_ARCH-$TOOL_SYSTEM_VERSION.tar.gz"
+TOOL_SYSTEM_URL=$TOOL_SYSTEM_URL_BASE/$TOOL_SYSTEM_TAR
 
 # -- Store current dir
 WORK_DIR=$PWD
@@ -74,10 +81,36 @@ install $SOURCE_DIR/lib/libftdi1.so.2 $TARGET_DIR/lib
 install $SOURCE_DIR/libexec/lsusb $TARGET_DIR/libexec
 install $SOURCE_DIR/libexec/lsftdi $TARGET_DIR/libexec
 
+# -- Download the tools-system package
+# -- (for getting the eeprom-ftdi executable)
+# -- (not available in the oss-cad-suite)
+echo "--> Download tool-system package"
+echo ""
+cd "$UPSTREAM_DIR"
+mkdir -p tools-system
+cd tools-system
+test -e $TOOL_SYSTEM_TAR || wget $TOOL_SYSTEM_URL
+
+# -- Extract the tools-system package
+echo "--> Extracting the tool-system package"
+echo ""
+test -d bin || tar vzxf $TOOL_SYSTEM_TAR
+
+# -- Copy the ftdi_eeprom file
+install bin/ftdi_eeprom $TARGET_DIR/bin
+
 # -- Creating the package
 # -- Copy templates/package-template.json
 echo "--> Creating the package"
 echo ""
 PACKAGE_JSON="$PACKAGE_DIR"/"$ARCH"/package.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json $PACKAGE_JSON
-
+echo "ARCH: $ARCH"
+if [ "$ARCH" == "linux-x64" ]; then
+  echo "HOOOOOLI!!!!"
+  sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/"$ARCH"/package.json
+  sed -i "s/%SYSTEM%/\"linux_x86_64\"/;" "$PACKAGE_DIR"/"$ARCH"/package.json
+fi
+cd $PACKAGE_DIR/$ARCH
+tar vzcf ../tools-oss-cad-suite-$ARCH-$FILE_TAG.tar.gz ./*
+echo "--> Package created: tools-oss-cad-suite-$ARCH-$VERSION.tar.gz"
