@@ -38,7 +38,7 @@ jobs:
           body: |
             A new release
           draft: false
-          prerelease: false
+          prerelease: true
 
       - name: Upload Linux_64 Release Asset
         uses: actions/upload-release-asset@v1
