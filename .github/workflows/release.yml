@@ -1,0 +1,51 @@
+# Packaging and Releasing the Tools-oss-cad-suite apio package
+
+name: Release
+
+# Manual activation
+on: [workflow_dispatch]
+
+jobs:
+
+  # -- Building Linux_x86_64
+  # -- It creates the package tools-oss-cad-suite-linux-x64-20210627.tar.gz
+  build-Linux_x86_64:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      # -- Checkout the repo
+      - name: Checkout!
+        uses: actions/checkout@v2
+
+      # -- Execute the build script
+      - name: Run build Script (Linux_x86_x64)
+        run: |
+          ./build.sh linux_x64
+          version=$(cat VERSION)
+          echo "VERSION: $version"
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      #-- Create the Release
+      - name: Create the Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION }}
+          release_name: v${{ env.VERSION }}
+          body: |
+            A new release
+          draft: false
+          prerelease: false
+
+      - name: Upload Linux_64 Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: _packages/build_linux_x86_64/tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
+          asset_name: tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
+          asset_content_type: application/tar+gzip

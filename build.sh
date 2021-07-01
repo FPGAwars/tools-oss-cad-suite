@@ -107,7 +107,6 @@ PACKAGE_JSON="$PACKAGE_DIR"/"$ARCH"/package.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json $PACKAGE_JSON
 echo "ARCH: $ARCH"
 if [ "$ARCH" == "linux-x64" ]; then
-  echo "HOOOOOLI!!!!"
   sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/"$ARCH"/package.json
   sed -i "s/%SYSTEM%/\"linux_x86_64\"/;" "$PACKAGE_DIR"/"$ARCH"/package.json
 fi
