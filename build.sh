@@ -22,11 +22,12 @@ MONTH=06
 DAY=27
 RELEASE_TAG=$YEAR-$MONTH-$DAY
 FILE_TAG=$YEAR$MONTH$DAY
-ARCH="linux-x64"
+ARCH="linux_x86_64"
+ARCH_SRC="linux-x64"
 EXT="tgz"
 
 URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
-FILENAME_SRC="oss-cad-suite-$ARCH-$FILE_TAG.$EXT"
+FILENAME_SRC="oss-cad-suite-$ARCH_SRC-$FILE_TAG.$EXT"
 URL=$URL_BASE/$RELEASE_TAG/$FILENAME_SRC
 
 TOOL_SYSTEM_VERSION=1.1.2

@@ -8,7 +8,7 @@ on: [workflow_dispatch]
 jobs:
 
   # -- Building Linux_x86_64
-  # -- It creates the package tools-oss-cad-suite-linux-x64-20210627.tar.gz
+  # -- It creates the package tools-oss-cad-suite-linux-x86-64-20210627.tar.gz
   build-Linux_x86_64:
 
     runs-on: ubuntu-20.04
@@ -21,7 +21,7 @@ jobs:
       # -- Execute the build script
       - name: Run build Script (Linux_x86_x64)
         run: |
-          ./build.sh linux_x64
+          ./build.sh linux_x86_x64
           version=$(cat VERSION)
           echo "VERSION: $version"
           echo "VERSION=$version" >> $GITHUB_ENV
