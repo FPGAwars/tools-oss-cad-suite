@@ -15,7 +15,7 @@ export LC_ALL=C
 
 # -- Tool name
 NAME=oss-cad-suite
-VERSION=0.0.1
+VERSION=$(cat VERSION)
 
 YEAR=2021
 MONTH=06
@@ -25,6 +25,8 @@ FILE_TAG=$YEAR$MONTH$DAY
 ARCH="linux_x86_64"
 ARCH_SRC="linux-x64"
 EXT="tgz"
+
+PACKAGE_NAME=tools-oss-cad-suite-$ARCH-$VERSION.tar.gz
 
 URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
 FILENAME_SRC="oss-cad-suite-$ARCH_SRC-$FILE_TAG.$EXT"
@@ -56,7 +58,8 @@ echo "URL: $UPSTREAM_DIR"
 echo "FILE: $FILENAME_SRC"
 echo ""
 cd "$UPSTREAM_DIR"
-test -e $FILENAME_SRC || wget $URL
+# -- Download the source package (non verbose)
+test -e $FILENAME_SRC || wget -nv $URL
 
 # --- Uncompress the release file
 echo "--> Extracting the upstream package"
@@ -112,6 +115,7 @@ if [ "$ARCH" == "linux-x64" ]; then
   sed -i "s/%SYSTEM%/\"linux_x86_64\"/;" "$PACKAGE_DIR"/"$ARCH"/package.json
 fi
 cd $PACKAGE_DIR/$ARCH
-tar vzcf ../tools-oss-cad-suite-$ARCH-$FILE_TAG.tar.gz ./* 
-echo "--> Package created: tools-oss-cad-suite-$ARCH-$VERSION.tar.gz"
+
+tar vzcf ../$PACKAGE_NAME ./* 
+echo "--> Package created: $PACKAGE_NAME"
 
