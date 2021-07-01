@@ -61,7 +61,7 @@ test -e $FILENAME_SRC || wget $URL
 # --- Uncompress the release file
 echo "--> Extracting the upstream package"
 echo ""
-test -d oss-cad-suite || tar vzxf $FILENAME_SRC
+test -d oss-cad-suite || tar vzxf $FILENAME_SRC > /dev/null
 
 # -- Create the folders of the target package
 TARGET_DIR=$PACKAGE_DIR/$ARCH
@@ -112,5 +112,6 @@ if [ "$ARCH" == "linux-x64" ]; then
   sed -i "s/%SYSTEM%/\"linux_x86_64\"/;" "$PACKAGE_DIR"/"$ARCH"/package.json
 fi
 cd $PACKAGE_DIR/$ARCH
-tar vzcf ../tools-oss-cad-suite-$ARCH-$FILE_TAG.tar.gz ./*
+tar vzcf ../tools-oss-cad-suite-$ARCH-$FILE_TAG.tar.gz ./* 
 echo "--> Package created: tools-oss-cad-suite-$ARCH-$VERSION.tar.gz"
+
