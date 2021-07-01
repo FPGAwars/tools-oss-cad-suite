@@ -37,8 +37,8 @@ jobs:
           release_name: v${{ env.VERSION }}
           body: |
             A new release
-          draft: false
-          prerelease: true
+          draft: true
+          prerelease: false
 
       - name: Upload Linux_64 Release Asset
         uses: actions/upload-release-asset@v1
