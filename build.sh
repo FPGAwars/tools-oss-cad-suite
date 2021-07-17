@@ -12,18 +12,111 @@ export LC_ALL=C
 
 
 #-----------------------------------------------------------
-
+# -- INPUT parameters
+#
 # -- Tool name
 NAME=oss-cad-suite
-VERSION=$(cat VERSION)
 
+# -- DATE. It is used for getting the oss-cad-suite source package
+# -- If you want to genete an updated oss-cad-suite apio packages
+# -- set the new date
 YEAR=2021
 MONTH=06
 DAY=27
+
+# -- Target package version: Read from the VERSION text file
+# -- Set the version in that file first
+VERSION=$(cat VERSION)
+echo "Package version: $VERSION"
+
+# -- Target architectures
+ARCH=$1
+TARGET_ARCHS="linux_x86_64 windows_amd64 darwin"
+
+# -- Print the help message and exit
+function print_help_exit {
+  echo ""
+  echo "Usage: bash build.sh ARCHITECTURE"
+  echo ""
+  echo "ARCHITECTURES: "
+  echo "  * linux_x86_64  : Linux 64-bits"
+  echo "  * windows_amd64 : Windows 64-bits"
+  echo "  * darwin        : MAC"
+  echo ""
+  echo "Example:"
+  echo "bash build.sh linux_x86_64"
+  echo ""
+  exit 1
+}
+
+# ----------------------------------
+# --- Check the Script parameters
+# -----------------------------------
+
+# --- There should be only one parameter
+if [[ $# -gt 1 ]]; then
+  echo ""
+  echo "Error: too many arguments"
+  print_help_exit
+fi
+
+# -- There sould be one parameter: The target architecture
+# -- If no parameter, show an error message
+if [[ $# -lt 1 ]]; then
+  echo ""
+  echo "Error: No target architecture given"
+  print_help_exit
+fi
+
+# -- Check that the architectura name is correct
+if [[ $ARCH =~ [[:space:]] || ! $TARGET_ARCHS =~ (^|[[:space:]])$ARCH([[:space:]]|$) ]]; then
+  echo ""
+  echo ">>> WRONG ARCHITECTURE \"$ARCH\""
+  print_help_exit
+fi
+
+echo ""
+echo "******* Building tools-$NAME apio package"
+echo ">>> ARCHITECTURE \"$ARCH\""
+echo ""
+
+# ---------------------------------------------------------------------------- 
+# -  Create variables from the INPUT parameters
+# -
+
+# -- Create the source architecture name of the source package
+# --
+# -- This is the table with the correspondence names of the architectures
+#--  of the apio packages and the oss-cad-suite source package:
+# --
+# --  Apio package architecture    oss-cad-suite architecture
+# --  -------------------------    --------------------------
+# --     linux_x86_64               linux-x64
+# --     windows_amd64              windows-x64
+# --     darwin                     darwin-x64
+
+# --  if ARCH == linux_x86_64  --> ARCH_SRC = linux-x64
+# --  if ARCH == windows_amd64 --> ARCH_SRC = windows-x64
+# --  if ARCH == darwin ---> ARCH_SRC = darwin-x64
+
+if [ "${ARCH}" == "linux_x86_64" ]; then
+   ARCH_SRC="linux-x64"
+fi
+
+if [ "${ARCH}" == "windows_amd64" ]; then
+   ARCH_SRC="windows-x64"
+fi
+
+if [ "${ARCH}" == "darwin" ]; then
+   ARCH_SRC="darwin-x64"
+fi
+
+echo "Src architecture: $ARCH_SRC"
+
+exit 1
+
 RELEASE_TAG=$YEAR-$MONTH-$DAY
 FILE_TAG=$YEAR$MONTH$DAY
-ARCH="linux_x86_64"
-ARCH_SRC="linux-x64"
 EXT="tgz"
 
 PACKAGE_NAME=tools-oss-cad-suite-$ARCH-$VERSION.tar.gz
