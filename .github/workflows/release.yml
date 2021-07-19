@@ -19,9 +19,9 @@ jobs:
         uses: actions/checkout@v2
 
       # -- Build the package for LINUX
-      - name: Build Script (Linux_x86_x64)
+      - name: Build Script (Linux_x86_64)
         run: |
-          ./build.sh linux_x86_x64
+          ./build.sh linux_x86_64
           version=$(cat VERSION)
           echo "VERSION: $version"
           echo "VERSION=$version" >> $GITHUB_ENV
