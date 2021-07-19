@@ -18,13 +18,23 @@ jobs:
       - name: Checkout!
         uses: actions/checkout@v2
 
-      # -- Execute the build script
-      - name: Run build Script (Linux_x86_x64)
+      # -- Build the package for LINUX
+      - name: Build Script (Linux_x86_x64)
         run: |
           ./build.sh linux_x86_x64
           version=$(cat VERSION)
           echo "VERSION: $version"
           echo "VERSION=$version" >> $GITHUB_ENV
+
+      # -- Build the package for MAC
+      - name: Build Script (MAC)
+        run: |
+          ./build.sh darwin
+
+      # -- Build the package for WINDOWS
+      - name: Build Script (Windows_amd64)
+        run: |
+          ./build.sh windows_amd64
 
       #-- Create the Release
       - name: Create the Release
@@ -49,3 +59,25 @@ jobs:
           asset_path: _packages/tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
           asset_name: tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
           asset_content_type: application/tar+gzip
+
+      - name: Upload MAC Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: _packages/tools-oss-cad-suite-darwin-${{ env.VERSION }}.tar.gz
+          asset_name: tools-oss-cad-suite-darwin-${{ env.VERSION }}.tar.gz
+          asset_content_type: application/tar+gzip
+
+      - name: Upload Window Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: _packages/tools-oss-cad-suite-window_amd64-${{ env.VERSION }}.tar.gz
+          asset_name: tools-oss-cad-suite-window_amd64-${{ env.VERSION }}.tar.gz
+          asset_content_type: application/tar+gzip
+
+
