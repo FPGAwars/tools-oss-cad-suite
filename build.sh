@@ -310,7 +310,7 @@ if [ "$ARCH" == "darwin" ]; then
   install $SOURCE_DIR/bin/lsftdi $PACKAGE_DIR/bin
   install $SOURCE_DIR/libexec/lsusb $PACKAGE_DIR/libexec
   install $SOURCE_DIR/libexec/lsftdi $PACKAGE_DIR/libexec
-   install $SOURCE_DIR/libexec/realpath $PACKAGE_DIR/libexec
+  install $SOURCE_DIR/libexec/realpath $PACKAGE_DIR/libexec
 
   # -- Copy the ftdi_eeprom file
   install $TOOL_SYSTEM_SRC/bin/ftdi_eeprom $PACKAGE_DIR/bin
@@ -322,14 +322,16 @@ if [ "$ARCH" == "darwin" ]; then
 fi
 
 
-# --- Files to copy for the Linux platforms
+# --- Files to copy for the WINDOWS platforms
 if [ "$ARCH" == "windows_amd64" ]; then
   echo "* Copying Windows files..."
   echo ""
 
   # -- System tools
 
-  # -- Executables
+  # -- Executables and libraries
+  # -- (The dlls are located along with the executables
+  # --  instead of in the lib folder)
   install $SOURCE_DIR/bin/lsusb.exe $PACKAGE_DIR/bin
   install $SOURCE_DIR/bin/lsftdi.exe $PACKAGE_DIR/bin
 
@@ -337,11 +339,8 @@ if [ "$ARCH" == "windows_amd64" ]; then
   install $TOOL_SYSTEM_SRC/bin/ftdi_eeprom.exe $PACKAGE_DIR/bin
 
   # -- Libraries
-  install $SOURCE_DIR/lib/libusb-1.0.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libftdi1.dll $PACKAGE_DIR/lib
-
-  # -- Is this really needed?
-  install $SOURCE_DIR/lib/libftdipp1.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libusb-1.0.dll $PACKAGE_DIR/bin
+  install $SOURCE_DIR/lib/libftdi1.dll $PACKAGE_DIR/bin
   
 fi
 
