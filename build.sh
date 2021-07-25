@@ -280,7 +280,9 @@ if [ "$ARCH" == "linux_x86_64" ]; then
 
   echo "* Copying Linux files..."
   echo ""
+  # --------------------
   # -- System tools
+  # --------------------
 
   # -- Executables
   install $SOURCE_DIR/bin/lsusb $PACKAGE_DIR/bin
@@ -296,6 +298,14 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/lib/libc.so.6 $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libftdi1.so.2 $PACKAGE_DIR/lib
 
+  # ---------------------------
+  # -- Iceprog
+  # ---------------------------
+  # -- Executable
+  install $SOURCE_DIR/bin/iceprog $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/iceprog $PACKAGE_DIR/libexec
+
+
 fi
 
 # --- Files to copy for the MAC platforms
@@ -303,7 +313,9 @@ if [ "$ARCH" == "darwin" ]; then
 
   echo "* Copying MAC files..."
   echo ""
+  # --------------------
   # -- System tools
+  # --------------------
 
   # -- Executables
   install $SOURCE_DIR/bin/lsusb $PACKAGE_DIR/bin
@@ -319,6 +331,12 @@ if [ "$ARCH" == "darwin" ]; then
   install $SOURCE_DIR/lib/libusb-1.0.0.dylib $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libftdi1.2.5.0.dylib $PACKAGE_DIR/lib
 
+  # ---------------------------
+  # -- Iceprog
+  # ---------------------------
+  install $SOURCE_DIR/bin/iceprog $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/iceprog $PACKAGE_DIR/libexec
+
 fi
 
 
@@ -327,7 +345,9 @@ if [ "$ARCH" == "windows_amd64" ]; then
   echo "* Copying Windows files..."
   echo ""
 
+  # --------------------
   # -- System tools
+  # --------------------
 
   # -- Executables and libraries
   # -- (The dlls are located along with the executables
@@ -341,6 +361,11 @@ if [ "$ARCH" == "windows_amd64" ]; then
   # -- Libraries
   install $SOURCE_DIR/lib/libusb-1.0.dll $PACKAGE_DIR/bin
   install $SOURCE_DIR/lib/libftdi1.dll $PACKAGE_DIR/bin
+
+  # ---------------------------
+  # -- Iceprog
+  # ---------------------------
+  install $SOURCE_DIR/bin/iceprog.exe $PACKAGE_DIR/bin
   
 fi
 
