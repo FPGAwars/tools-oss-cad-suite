@@ -298,9 +298,9 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/lib/libc.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libudev.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libpthread.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/librt.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libusb-1.0.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libftdi1.so* $PACKAGE_DIR/lib
-
   
 
   # ---------------------------
