@@ -294,9 +294,14 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $TOOL_SYSTEM_SRC/bin/ftdi_eeprom $PACKAGE_DIR/bin
 
   # -- Libraries
-  install $SOURCE_DIR/lib/ld-linux-x86-64.so.2 $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libc.so.6 $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libftdi1.so.2 $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/ld-linux-x86-64.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libc.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libudev.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpthread.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libusb-1.0.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libftdi1.so* $PACKAGE_DIR/lib
+
+  
 
   # ---------------------------
   # -- Iceprog
