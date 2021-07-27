@@ -18,13 +18,18 @@ jobs:
       - name: Checkout!
         uses: actions/checkout@v2
 
-      # -- Build the package for LINUX
+      # -- Build the package for LINUX - x64
       - name: Build Script (Linux_x86_64)
         run: |
           ./build.sh linux_x86_64
           version=$(cat VERSION)
           echo "VERSION: $version"
           echo "VERSION=$version" >> $GITHUB_ENV
+
+      # -- Build the package for LINUX - ARM
+      - name: Build Script (Linux_aarch64)
+        run: |
+          ./build.sh linux_aarch64
 
       # -- Build the package for MAC
       - name: Build Script (MAC)
@@ -58,6 +63,16 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: _packages/tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
           asset_name: tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
+          asset_content_type: application/tar+gzip
+
+      - name: Upload Linux_aarch64 Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: _packages/tools-oss-cad-suite-linux_aarch64-${{ env.VERSION }}.tar.gz
+          asset_name: tools-oss-cad-suite-linux_aarch64-${{ env.VERSION }}.tar.gz
           asset_content_type: application/tar+gzip
 
       - name: Upload MAC Release Asset
