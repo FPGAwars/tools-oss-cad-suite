@@ -320,6 +320,33 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   # -- Executable
   install $SOURCE_DIR/bin/iceprog $PACKAGE_DIR/bin
   install $SOURCE_DIR/libexec/iceprog $PACKAGE_DIR/libexec
+  
+
+  # ----------------------------
+  # -- YOSYS
+  # ----------------------------
+  # -- Executables
+  install $SOURCE_DIR/bin/yosys $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/yosys $PACKAGE_DIR/libexec
+  install $SOURCE_DIR/bin/yosys-abc $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/yosys-abc $PACKAGE_DIR/libexec
+
+  # -- Libraries
+  install $SOURCE_DIR/lib/libstdc++.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libm.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libreadline.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libffi.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libdl.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libz.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libtcl* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libgcc_s.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libtinfo.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/yosys-abc $PACKAGE_DIR/lib
+
+  # -- Share
+  mkdir -p $PACKAGE_DIR/share/yosys
+  cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
+
 fi
 
 # --- Files to copy for the Linux ARM-64 platforms
