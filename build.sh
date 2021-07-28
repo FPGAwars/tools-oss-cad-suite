@@ -351,6 +351,25 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   mkdir -p $PACKAGE_DIR/share/yosys
   cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
 
+  #------------------------------------------
+  #-- ICE40 tools
+  #------------------------------------------
+  # -- Executable
+  install $SOURCE_DIR/bin/icebram $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/icebram $PACKAGE_DIR/libexec
+  install $SOURCE_DIR/bin/icemulti $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/icemulti $PACKAGE_DIR/libexec
+  install $SOURCE_DIR/bin/icepack $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/icepack $PACKAGE_DIR/libexec
+  install $SOURCE_DIR/bin/icepll $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/icepll $PACKAGE_DIR/libexec
+  install $SOURCE_DIR/bin/icetime $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/icetime $PACKAGE_DIR/libexec
+
+ # -- Share
+  mkdir -p $PACKAGE_DIR/share/icebox
+  cp -r $SOURCE_DIR/share/icebox/* $PACKAGE_DIR/share/icebox
+
   # -----------------------------------
   # -- NETXPNR-ICE40
   # -----------------------------------
@@ -391,6 +410,8 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/lib/libxcb.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libXau.so.6* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libXdmcp.so.6* $PACKAGE_DIR/lib
+
+  
 
 fi
 
