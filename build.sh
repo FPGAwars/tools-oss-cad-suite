@@ -431,7 +431,7 @@ if [ "$ARCH" == "linux_aarch64" ]; then
   install $SOURCE_DIR/libexec/lsftdi $PACKAGE_DIR/libexec
 
   # -- Libraries
-  install $SOURCE_DIR/lib/ld-linux-x86-64.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/ld-linux-aarch64.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libc.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libudev.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libpthread.so* $PACKAGE_DIR/lib
