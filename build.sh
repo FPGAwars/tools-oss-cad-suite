@@ -362,8 +362,18 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/libexec/nextpnr-ice40 $PACKAGE_DIR/libexec
 
   # -- Libraries
+  install $SOURCE_DIR/lib/libboost_filesystem.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libboost_program_options.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libboost_thread.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libpython3.8.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libQt5Widgets.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libQt5Gui.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libQt5Core.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libGL.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libGLdispatch.so.0* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libGLX.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpng16.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libharfbuzz.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libexpat.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libutil.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libharfbuzz.so* $PACKAGE_DIR/lib
@@ -375,6 +385,12 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/lib/libicudata.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libpcre.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libbsd.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libfreetype.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libgraphite2.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libX11.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libxcb.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libXau.so.6* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libXdmcp.so.6* $PACKAGE_DIR/lib
 
 fi
 
