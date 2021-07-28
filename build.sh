@@ -102,6 +102,9 @@ UPSTREAM_DIR=$WORK_DIR/_upstream/$ARCH
 # -- Folder for storing the generated packages
 PACKAGE_DIR=$WORK_DIR/_packages/$ARCH
 
+# -- Template folder
+TEMPLATE="$WORK_DIR/templates/$ARCH"
+
 # -- Create the upstream directory 
 mkdir -p "$UPSTREAM_DIR"
 
@@ -286,6 +289,7 @@ else
   EXE=""
 fi
 
+
 # --- Files to copy for the Linux x64 platforms
 if [ "$ARCH" == "linux_x86_64" ]; then
 
@@ -346,6 +350,31 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   # -- Share
   mkdir -p $PACKAGE_DIR/share/yosys
   cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
+
+  # -----------------------------------
+  # -- NETXPNR-ICE40
+  # -----------------------------------
+  # -- Executable
+  # -- It is copied from the template
+  # -- It is a simplified version of the one provided by
+  # -- the oss-cad-suite
+  install $TEMPLATE/nextpnr-ice40 $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/nextpnr-ice40 $PACKAGE_DIR/libexec
+
+  # -- Libraries
+  install $SOURCE_DIR/lib/libboost_program_options.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libboost_thread.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libexpat.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libutil.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libharfbuzz.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libicui18n.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libicuuc.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpcre2-16.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libdouble-conversion.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libglib-2.0.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libicudata.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpcre.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libbsd.so* $PACKAGE_DIR/lib
 
 fi
 
