@@ -507,6 +507,55 @@ if [ "$ARCH" == "windows_amd64" ]; then
   # -- Iceprog
   # ---------------------------
   install $SOURCE_DIR/bin/iceprog.exe $PACKAGE_DIR/bin
+
+  # ----------------------------
+  # -- YOSYS
+  # ----------------------------
+  # -- Executables
+  install $SOURCE_DIR/bin/yosys.exe $PACKAGE_DIR/bin
+  install $SOURCE_DIR/bin/yosys-abc.exe $PACKAGE_DIR/bin
+
+  # -- Libraries
+  install $SOURCE_DIR/lib/libstdc++*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libreadline*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libffi*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libdl.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/tcl*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libgcc_s*.dll $PACKAGE_DIR/lib
+
+  # -- Share
+  mkdir -p $PACKAGE_DIR/share/yosys
+  cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
+
+  # -----------------------------------
+  # -- NETXPNR-ICE40
+  # -----------------------------------
+  # -- Executable
+  install $SOURCE_DIR/bin/nextpnr-ice40.exe $PACKAGE_DIR/bin
+
+  # -- Libraries
+  install $SOURCE_DIR/lib/libboost_filesystem*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libboost_program_options*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libboost_thread*.dll $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libpython3.8.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libQt5Widgets.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libQt5Gui.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libQt5Core.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libGL.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libGLdispatch.so.0* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libGLX.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libpng16.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libharfbuzz*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libexpat*.dll $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libutil.so* $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libicui18n.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/icuuc*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpcre2-*.dll $PACKAGE_DIR/lib
+  #install $SOURCE_DIR/lib/libdouble-conversion.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libglib-2.0* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/icudata*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpcre*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libfreetype*.dll $PACKAGE_DIR/lib
   
 fi
 
