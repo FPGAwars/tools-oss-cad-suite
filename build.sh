@@ -522,6 +522,10 @@ if [ "$ARCH" == "windows_amd64" ]; then
   install $SOURCE_DIR/lib/libdl.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/tcl*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libgcc_s*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/zlib1.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libwinpthread*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libtermcap*.dll $PACKAGE_DIR/lib
+
 
   # -- Share
   mkdir -p $PACKAGE_DIR/share/yosys
