@@ -384,7 +384,7 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/lib/libboost_filesystem.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libboost_program_options.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libboost_thread.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libpython3.8.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpython3.8.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libQt5Widgets.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libQt5Gui.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libQt5Core.so* $PACKAGE_DIR/lib
@@ -411,6 +411,10 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   install $SOURCE_DIR/lib/libXau.so.6* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libXdmcp.so.6* $PACKAGE_DIR/lib
 
+  # -- Python 3.8
+  # -- The whole python 3.8 should be copied in lib/python3.8
+  mkdir -p $PACKAGE_DIR/lib/python3.8
+  cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
   
 
 fi
