@@ -526,10 +526,25 @@ if [ "$ARCH" == "windows_amd64" ]; then
   install $SOURCE_DIR/lib/libwinpthread*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libtermcap*.dll $PACKAGE_DIR/lib
 
-
   # -- Share
   mkdir -p $PACKAGE_DIR/share/yosys
   cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
+
+
+  #------------------------------------------
+  #-- ICE40 tools
+  #------------------------------------------
+  # -- Executable
+  install $SOURCE_DIR/bin/icebram.exe $PACKAGE_DIR/bin
+  install $SOURCE_DIR/bin/icemulti.exe $PACKAGE_DIR/bin
+  install $SOURCE_DIR/bin/icepack.exe $PACKAGE_DIR/bin
+  install $SOURCE_DIR/bin/icepll.exe $PACKAGE_DIR/bin
+  install $SOURCE_DIR/bin/icetime.exe $PACKAGE_DIR/bin
+
+ # -- Share
+  mkdir -p $PACKAGE_DIR/share/icebox
+  cp -r $SOURCE_DIR/share/icebox/* $PACKAGE_DIR/share/icebox
+
 
   # -----------------------------------
   # -- NETXPNR-ICE40
@@ -541,25 +556,26 @@ if [ "$ARCH" == "windows_amd64" ]; then
   install $SOURCE_DIR/lib/libboost_filesystem*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libboost_program_options*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libboost_thread*.dll $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libpython3.8.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libQt5Widgets.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libQt5Gui.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libQt5Core.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libGL.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libGLdispatch.so.0* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libGLX.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libpng16.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpython*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/Qt5Widgets*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/Qt5Gui*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/Qt5Core*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libpng16*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libharfbuzz*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libexpat*.dll $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libutil.so* $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libicui18n.so* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/icuuc*.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/iconv*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libpcre2-*.dll $PACKAGE_DIR/lib
-  #install $SOURCE_DIR/lib/libdouble-conversion.so* $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/libintl*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libglib-2.0* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/icudata*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libpcre*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libfreetype*.dll $PACKAGE_DIR/lib
+
+  # -- Python 3.8
+  # -- The whole python 3.8 should be copied in lib/python3.8
+  mkdir -p $PACKAGE_DIR/lib/python3.8
+  cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
   
 fi
 
