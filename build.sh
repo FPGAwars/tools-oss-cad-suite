@@ -415,7 +415,25 @@ if [ "$ARCH" == "linux_x86_64" ]; then
   # -- The whole python 3.8 should be copied in lib/python3.8
   mkdir -p $PACKAGE_DIR/lib/python3.8
   cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
-  
+
+  #------------------------------------------
+  #-- ECP5 tools
+  #------------------------------------------
+  # -- Executable
+  install $SOURCE_DIR/bin/ecppack $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/ecppack $PACKAGE_DIR/libexec
+
+  # -- Share
+  mkdir -p $PACKAGE_DIR/share/trellis
+  cp -r $SOURCE_DIR/share/trellis/* $PACKAGE_DIR/share/trellis 
+
+  # -----------------------------------
+  # -- NETXPNR-ECP5
+  # -----------------------------------
+  #install $TEMPLATE/nextpnr-ice40 $PACKAGE_DIR/bin
+  install $SOURCE_DIR/bin/nextpnr-ecp5 $PACKAGE_DIR/bin
+  install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
+
 
 fi
 
