@@ -275,24 +275,13 @@ mkdir -p $PACKAGE_DIR/lib
 mkdir -p $PACKAGE_DIR/libexec
 
 # -------------------------------------------------------
-# - Copy the files to the included in the package
+# - Copy the files to be included in the package
 # - The files depend on the platform
 #-------------------------------------------------------
 
 # -- Copy the selected files to the target dir
 echo "--> Copying files"
 echo ""
-
-# -- The executable files ends in .exe on Windows platforms
-
-# -- On windows platforms we use 7z, as it is an self-extract .exe file
-if [ "${ARCH:0:7}" == "windows" ]; then
-  EXE=".exe"
-
-else
-  # -- No exe extension for the other platoforms
-  EXE=""
-fi
 
 # --- Files to copy for the Linux x64 platforms
 if [ "$ARCH" == "linux_x86_64" ]; then
@@ -303,165 +292,21 @@ fi
 # --- Files to copy for the Linux ARM-64 platforms
 if [ "$ARCH" == "linux_aarch64" ]; then
 
-  echo "* Copying Linux files..."
-  echo ""
-  # --------------------
-  # -- System tools
-  # --------------------
-
-  # -- Executables
-  install $SOURCE_DIR/bin/lsusb $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/lsftdi $PACKAGE_DIR/bin
-  install $SOURCE_DIR/libexec/lsusb $PACKAGE_DIR/libexec
-  install $SOURCE_DIR/libexec/lsftdi $PACKAGE_DIR/libexec
-
-  # -- Libraries
-  install $SOURCE_DIR/lib/ld-linux-aarch64.so* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libc.so* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libudev.so* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpthread.so* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/librt.so* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libusb-1.0.so* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libftdi1.so* $PACKAGE_DIR/lib
-
-  # ---------------------------
-  # -- Iceprog
-  # ---------------------------
-  # -- Executable
-  install $SOURCE_DIR/bin/iceprog $PACKAGE_DIR/bin
-  install $SOURCE_DIR/libexec/iceprog $PACKAGE_DIR/libexec
-
+  . "$WORK_DIR"/scripts/install_linux_arm64.sh
 fi
 
 
 # --- Files to copy for the MAC platforms
 if [ "$ARCH" == "darwin" ]; then
 
-  echo "* Copying MAC files..."
-  echo ""
-  # --------------------
-  # -- System tools
-  # --------------------
-
-  # -- Executables
-  install $SOURCE_DIR/bin/lsusb $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/lsftdi $PACKAGE_DIR/bin
-  install $SOURCE_DIR/libexec/lsusb $PACKAGE_DIR/libexec
-  install $SOURCE_DIR/libexec/lsftdi $PACKAGE_DIR/libexec
-  install $SOURCE_DIR/libexec/realpath $PACKAGE_DIR/libexec
-
-  # -- Copy the ftdi_eeprom file
-  install $TOOL_SYSTEM_SRC/bin/ftdi_eeprom $PACKAGE_DIR/bin
-
-  # -- Libraries
-  install $SOURCE_DIR/lib/libusb-1.0.0.dylib $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libftdi1.2.5.0.dylib $PACKAGE_DIR/lib
-
-  # ---------------------------
-  # -- Iceprog
-  # ---------------------------
-  install $SOURCE_DIR/bin/iceprog $PACKAGE_DIR/bin
-  install $SOURCE_DIR/libexec/iceprog $PACKAGE_DIR/libexec
-
+  . "$WORK_DIR"/scripts/install_darwin.sh
 fi
 
 
 # --- Files to copy for the WINDOWS platforms
 if [ "$ARCH" == "windows_amd64" ]; then
-  echo "* Copying Windows files..."
-  echo ""
 
-  # --------------------
-  # -- System tools
-  # --------------------
-
-  # -- Executables and libraries
-  # -- (The dlls are located along with the executables
-  # --  instead of in the lib folder)
-  install $SOURCE_DIR/bin/lsusb.exe $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/lsftdi.exe $PACKAGE_DIR/bin
-
-  # -- Copy the ftdi_eeprom file
-  install $TOOL_SYSTEM_SRC/bin/ftdi_eeprom.exe $PACKAGE_DIR/bin
-
-  # -- Libraries
-  install $SOURCE_DIR/lib/libusb-1.0.dll $PACKAGE_DIR/bin
-  install $SOURCE_DIR/lib/libftdi1.dll $PACKAGE_DIR/bin
-
-  # ---------------------------
-  # -- Iceprog
-  # ---------------------------
-  install $SOURCE_DIR/bin/iceprog.exe $PACKAGE_DIR/bin
-
-  # ----------------------------
-  # -- YOSYS
-  # ----------------------------
-  # -- Executables
-  install $SOURCE_DIR/bin/yosys.exe $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/yosys-abc.exe $PACKAGE_DIR/bin
-
-  # -- Libraries
-  install $SOURCE_DIR/lib/libstdc++*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libreadline*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libffi*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libdl.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/tcl*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libgcc_s*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/zlib1.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libwinpthread*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libtermcap*.dll $PACKAGE_DIR/lib
-
-  # -- Share
-  mkdir -p $PACKAGE_DIR/share/yosys
-  cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
-
-
-  #------------------------------------------
-  #-- ICE40 tools
-  #------------------------------------------
-  # -- Executable
-  install $SOURCE_DIR/bin/icebram.exe $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/icemulti.exe $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/icepack.exe $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/icepll.exe $PACKAGE_DIR/bin
-  install $SOURCE_DIR/bin/icetime.exe $PACKAGE_DIR/bin
-
- # -- Share
-  mkdir -p $PACKAGE_DIR/share/icebox
-  cp -r $SOURCE_DIR/share/icebox/* $PACKAGE_DIR/share/icebox
-
-
-  # -----------------------------------
-  # -- NETXPNR-ICE40
-  # -----------------------------------
-  # -- Executable
-  install $SOURCE_DIR/bin/nextpnr-ice40.exe $PACKAGE_DIR/bin
-
-  # -- Libraries
-  install $SOURCE_DIR/lib/libboost_filesystem*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libboost_program_options*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libboost_thread*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpython*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/Qt5Widgets*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/Qt5Gui*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/Qt5Core*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpng16*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libharfbuzz*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libexpat*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/icuuc*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/iconv*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpcre2-*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libintl*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libglib-2.0* $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/icudata*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpcre*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libfreetype*.dll $PACKAGE_DIR/lib
-
-  # -- Python 3.8
-  # -- The whole python 3.8 should be copied in lib/python3.8
-  mkdir -p $PACKAGE_DIR/lib/python3.8
-  cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
-  
+  . "$WORK_DIR"/scripts/install_windows_x64.sh  
 fi
 
 

@@ -1,6 +1,4 @@
-  echo "* Copying Linux files..."
-  echo ""
-  
+   
   # --------------------
   # -- System tools
   # --------------------
