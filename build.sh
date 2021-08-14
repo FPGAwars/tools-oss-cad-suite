@@ -310,7 +310,7 @@ if [ "$ARCH" == "windows_amd64" ]; then
 fi
 
 # -- Debug: Stop here!
-# exit 1
+#exit 1
 
 # -----------------------------------------------------------
 # -- Create the TARGET package
