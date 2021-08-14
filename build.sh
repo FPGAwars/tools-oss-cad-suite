@@ -309,6 +309,8 @@ if [ "$ARCH" == "windows_amd64" ]; then
   . "$WORK_DIR"/scripts/install_windows_x64.sh  
 fi
 
+# -- Debug: Stop here!
+# exit 1
 
 # -----------------------------------------------------------
 # -- Create the TARGET package

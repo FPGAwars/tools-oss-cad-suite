@@ -92,3 +92,21 @@
   mkdir -p $PACKAGE_DIR/lib/python3.8
   cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
   
+#------------------------------------------
+#-- ECP5 tools
+#------------------------------------------
+# -- Executable
+install $SOURCE_DIR/bin/ecppack.exe $PACKAGE_DIR/bin
+
+# -- Share
+mkdir -p $PACKAGE_DIR/share/trellis
+cp -r $SOURCE_DIR/share/trellis/* $PACKAGE_DIR/share/trellis 
+
+# -----------------------------------
+# -- NETXPNR-ECP5
+# -----------------------------------
+install $SOURCE_DIR/bin/nextpnr-ecp5.exe $PACKAGE_DIR/bin
+
+
+
+
