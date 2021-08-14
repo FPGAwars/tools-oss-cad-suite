@@ -170,8 +170,29 @@ install $SOURCE_DIR/libexec/icesprog $PACKAGE_DIR/libexec
 
 install $SOURCE_DIR/lib/libhidapi-hidraw.so* $PACKAGE_DIR/lib
   
+# ---------------------------------------------------------
+# -- SIMULATION!!
+# ---------------------------------------------------------
+
+# --------------------
+# -- IVERILOG
+# --------------------
+install $SOURCE_DIR/bin/iverilog $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/iverilog $PACKAGE_DIR/libexec
+install $SOURCE_DIR/bin/vvp $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/vvp $PACKAGE_DIR/libexec
+install $SOURCE_DIR/bin/iverilog-vpi $PACKAGE_DIR/bin
+
+install $SOURCE_DIR/libexec/ivl $PACKAGE_DIR/libexec
+install $SOURCE_DIR/libexec/ivlpp $PACKAGE_DIR/libexec
+
+# -- Libraries
+mkdir -p $PACKAGE_DIR/lib/ivl
+cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl 
+
+
 # --------------------------------------
-# -- TODO: iverilog
 # -- TODO: verilator
 # --------------------------------------
-      
+install $SOURCE_DIR/bin/verilator $PACKAGE_DIR/bin 
+install $SOURCE_DIR/libexec/verilator_bin $PACKAGE_DIR/bin
