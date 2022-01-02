@@ -133,7 +133,6 @@ cp -r $SOURCE_DIR/share/trellis/* $PACKAGE_DIR/share/trellis
 # -----------------------------------
 # -- NETXPNR-ECP5
 # -----------------------------------
-#install $TEMPLATE/nextpnr-ice40 $PACKAGE_DIR/bin
 install $SOURCE_DIR/bin/nextpnr-ecp5 $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 

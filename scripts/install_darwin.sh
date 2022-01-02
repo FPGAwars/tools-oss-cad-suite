@@ -38,10 +38,13 @@ install $SOURCE_DIR/lib/libffi* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libz* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libtcl* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/yosys-abc $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libncurses* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libboost_iostreams* $PACKAGE_DIR/lib
 
 # -- Share
 mkdir -p $PACKAGE_DIR/share/yosys
 cp -r $SOURCE_DIR/share/yosys/* $PACKAGE_DIR/share/yosys
+
 
 #------------------------------------------
 #-- ICE40 tools
@@ -74,6 +77,11 @@ install $SOURCE_DIR/libexec/nextpnr-ice40 $PACKAGE_DIR/libexec
 
 # -- Libraries
 install $SOURCE_DIR/lib/libboost_filesystem* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libboost_chrono* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libboost_system* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libboost_regex* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libboost_date* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libboost_atom* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libboost_program_options* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libboost_thread* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libpython3.8* $PACKAGE_DIR/lib
@@ -94,6 +102,22 @@ install $SOURCE_DIR/lib/libgraphite2* $PACKAGE_DIR/lib
 mkdir -p $PACKAGE_DIR/lib/python3.8
 cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
 
+# -- Graphical frameworks
+mkdir -p $PACKAGE_DIR/Frameworks/QtOpenGL.framework
+cp -r $SOURCE_DIR/Frameworks/QtOpenGL.framework/* $PACKAGE_DIR/Frameworks/QtOpenGL.framework
+
+mkdir -p $PACKAGE_DIR/Frameworks/QtWidgets.framework
+cp -r $SOURCE_DIR/Frameworks/QtWidgets.framework/* $PACKAGE_DIR/Frameworks/QtWidgets.framework
+
+mkdir -p $PACKAGE_DIR/Frameworks/QtGui.framework
+cp -r $SOURCE_DIR/Frameworks/QtGui.framework/* $PACKAGE_DIR/Frameworks/QtGui.framework
+
+mkdir -p $PACKAGE_DIR/Frameworks/QtCore.framework
+cp -r $SOURCE_DIR/Frameworks/QtCore.framework/* $PACKAGE_DIR/Frameworks/QtCore.framework
+
+
+
+
 #------------------------------------------
 #-- ECP5 tools
 #------------------------------------------
@@ -112,7 +136,28 @@ install $SOURCE_DIR/bin/nextpnr-ecp5 $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 
 
+#-------------------------------------------------------------
+#-- PROGRAMMERS!!
+#-------------------------------------------------------------
 
+# ---------------------------------------------------------
+# -- SIMULATION!!
+# ---------------------------------------------------------
 
+# --------------------
+# -- IVERILOG
+# --------------------
+install $SOURCE_DIR/bin/iverilog $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/iverilog $PACKAGE_DIR/libexec
+install $SOURCE_DIR/bin/vvp $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/vvp $PACKAGE_DIR/libexec
+install $SOURCE_DIR/bin/iverilog-vpi $PACKAGE_DIR/bin
 
+install $SOURCE_DIR/libexec/ivl $PACKAGE_DIR/libexec
+install $SOURCE_DIR/libexec/ivlpp $PACKAGE_DIR/libexec
+
+# -- Libraries
+mkdir -p $PACKAGE_DIR/lib/ivl
+cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl 
+install $SOURCE_DIR/lib/libbz* $PACKAGE_DIR/lib
 
