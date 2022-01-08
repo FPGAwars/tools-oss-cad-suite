@@ -110,3 +110,25 @@ install $SOURCE_DIR/bin/nextpnr-ecp5.exe $PACKAGE_DIR/bin
 
 
 
+# ---------------------------------------------------------
+# -- SIMULATION!!
+# ---------------------------------------------------------
+
+
+# --------------------
+# -- IVERILOG
+# --------------------
+install $SOURCE_DIR/bin/iverilog.exe $PACKAGE_DIR/bin
+install $SOURCE_DIR/bin/vvp.exe $PACKAGE_DIR/bin
+install $SOURCE_DIR/bin/iverilog-vpi.exe $PACKAGE_DIR/bin
+
+# -- Libraries
+mkdir -p $PACKAGE_DIR/lib/ivl
+cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl 
+
+
+# --------------------------------------
+# -- TODO: verilator
+# --------------------------------------
+install $SOURCE_DIR/bin/verilator $PACKAGE_DIR/bin 
+install $SOURCE_DIR/bin/verilator_bin.exe $PACKAGE_DIR/bin
