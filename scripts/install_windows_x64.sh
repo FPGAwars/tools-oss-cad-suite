@@ -108,12 +108,32 @@ cp -r $SOURCE_DIR/share/trellis/* $PACKAGE_DIR/share/trellis
 install $SOURCE_DIR/bin/nextpnr-ecp5.exe $PACKAGE_DIR/bin
 
 
-
-
 # ---------------------------------------------------------
 # -- SIMULATION!!
 # ---------------------------------------------------------
 
+# ----------------------
+# -- OPENFPGA LOADER
+# ----------------------
+install $SOURCE_DIR/bin/openFPGALoader.exe $PACKAGE_DIR/bin
+
+install $SOURCE_DIR/lib/libhidapi*.dll $PACKAGE_DIR/lib
+
+# ------------------------
+# -- DFU
+# ------------------------
+install $SOURCE_DIR/bin/dfu-util.exe $PACKAGE_DIR/bin
+            
+
+# --------------------------
+# -- FUJPROG
+# --------------------------
+install $SOURCE_DIR/bin/fujprog.exe $PACKAGE_DIR/bin
+
+# --------------------------
+# -- ICESPROG
+# --------------------------
+install $SOURCE_DIR/bin/icesprog.exe $PACKAGE_DIR/bin
 
 # --------------------
 # -- IVERILOG
