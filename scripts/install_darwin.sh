@@ -140,6 +140,33 @@ install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 #-- PROGRAMMERS!!
 #-------------------------------------------------------------
 
+# ----------------------
+# -- OPENFPGA LOADER
+# ----------------------
+install $SOURCE_DIR/bin/openFPGALoader $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/openFPGALoader $PACKAGE_DIR/libexec
+
+install $SOURCE_DIR/lib/libhidapi* $PACKAGE_DIR/lib
+
+# ------------------------
+# -- DFU
+# ------------------------
+install $SOURCE_DIR/bin/dfu-util $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/dfu-util $PACKAGE_DIR/libexec
+            
+
+# --------------------------
+# -- FUJPROG
+# --------------------------
+install $SOURCE_DIR/bin/fujprog $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/fujprog $PACKAGE_DIR/libexec
+
+# --------------------------
+# -- ICESPROG
+# --------------------------
+install $SOURCE_DIR/bin/icesprog $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/icesprog $PACKAGE_DIR/libexec
+
 # ---------------------------------------------------------
 # -- SIMULATION!!
 # ---------------------------------------------------------
