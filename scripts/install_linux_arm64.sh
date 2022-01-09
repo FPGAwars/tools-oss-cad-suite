@@ -136,8 +136,34 @@
 #-- PROGRAMMERS!!
 #-------------------------------------------------------------
 
-# TODO
+# ----------------------
+# -- OPENFPGA LOADER
+# ----------------------
+install $SOURCE_DIR/bin/openFPGALoader $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/openFPGALoader $PACKAGE_DIR/libexec
 
+install $SOURCE_DIR/lib/libhidapi-libusb.so* $PACKAGE_DIR/lib
+
+# ------------------------
+# -- DFU
+# ------------------------
+install $SOURCE_DIR/bin/dfu-util $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/dfu-util $PACKAGE_DIR/libexec
+            
+
+# --------------------------
+# -- FUJPROG
+# --------------------------
+install $SOURCE_DIR/bin/fujprog $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/fujprog $PACKAGE_DIR/libexec
+
+# --------------------------
+# -- ICESPROG
+# --------------------------
+install $SOURCE_DIR/bin/icesprog $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/icesprog $PACKAGE_DIR/libexec
+
+install $SOURCE_DIR/lib/libhidapi-hidraw.so* $PACKAGE_DIR/lib
 # ---------------------------------------------------------
 # -- SIMULATION!!
 # ---------------------------------------------------------
