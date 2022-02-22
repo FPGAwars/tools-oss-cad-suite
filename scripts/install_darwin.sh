@@ -96,6 +96,7 @@ install $SOURCE_DIR/lib/libglib-2.0* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libicudata* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libfreetype* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libgraphite2* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libintl* $PACKAGE_DIR/lib
 
 # -- Python 3.8
 # -- The whole python 3.8 should be copied in lib/python3.8
