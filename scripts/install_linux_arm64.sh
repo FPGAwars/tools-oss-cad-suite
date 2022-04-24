@@ -183,6 +183,8 @@ install $SOURCE_DIR/libexec/ivlpp $PACKAGE_DIR/libexec
 # -- Libraries
 mkdir -p $PACKAGE_DIR/lib/ivl
 cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl 
+install $SOURCE_DIR/lib/libbz2* $PACKAGE_DIR/lib
+
 
 # --------------------------------------
 # -- TODO: verilator

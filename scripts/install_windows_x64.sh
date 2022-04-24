@@ -144,7 +144,9 @@ install $SOURCE_DIR/bin/iverilog-vpi.exe $PACKAGE_DIR/bin
 
 # -- Libraries
 mkdir -p $PACKAGE_DIR/lib/ivl
-cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl 
+cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl
+install $SOURCE_DIR/lib/libbz2*.dll $PACKAGE_DIR/lib
+
 
 
 # --------------------------------------
