@@ -131,6 +131,11 @@ install $SOURCE_DIR/bin/dfu-util.exe $PACKAGE_DIR/bin
 install $SOURCE_DIR/bin/fujprog.exe $PACKAGE_DIR/bin
 
 # --------------------------
+# -- ICEPROGDUINO
+# --------------------------
+install $SOURCE_DIR/bin/iceprogduino.exe $PACKAGE_DIR/bin
+
+# --------------------------
 # -- ICESPROG
 # --------------------------
 install $SOURCE_DIR/bin/icesprog.exe $PACKAGE_DIR/bin
