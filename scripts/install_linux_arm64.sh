@@ -158,6 +158,12 @@ install $SOURCE_DIR/bin/fujprog $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/fujprog $PACKAGE_DIR/libexec
 
 # --------------------------
+# -- ICEPROGDUINO
+# --------------------------
+install $SOURCE_DIR/bin/iceprogduino $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/iceprogduino $PACKAGE_DIR/libexec
+
+# --------------------------
 # -- ICESPROG
 # --------------------------
 install $SOURCE_DIR/bin/icesprog $PACKAGE_DIR/bin
