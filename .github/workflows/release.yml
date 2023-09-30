@@ -16,7 +16,7 @@ jobs:
     steps:
       # -- Checkout the repo
       - name: Checkout!
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # -- Build the package for LINUX - x64
       - name: Build Script (Linux_x86_64)
@@ -44,7 +44,7 @@ jobs:
       #-- Create the Release
       - name: Create the Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -56,7 +56,7 @@ jobs:
           prerelease: false
 
       - name: Upload Linux_64 Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -66,7 +66,7 @@ jobs:
           asset_content_type: application/tar+gzip
 
       - name: Upload Linux_aarch64 Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -86,7 +86,7 @@ jobs:
           asset_content_type: application/tar+gzip
 
       - name: Upload Window Release Asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
