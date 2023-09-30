@@ -11,7 +11,7 @@ jobs:
   # -- It creates the package tools-oss-cad-suite-linux-x86-64-20210627.tar.gz
   build-Linux_x86_64:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       # -- Checkout the repo
