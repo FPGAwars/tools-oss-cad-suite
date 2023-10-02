@@ -21,8 +21,8 @@ NAME=oss-cad-suite
 # -- If you want to genete an updated oss-cad-suite apio packages
 # -- set the new date
 YEAR=2023
-MONTH=09
-DAY=30
+MONTH=10
+DAY=02
 
 # -- Base URL for oss-cad-suite package
 SRC_URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
@@ -32,6 +32,9 @@ SRC_URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
 VERSION=$(cat VERSION)
 echo "Package version: $VERSION"
 
+# -- Version of the tool-system package
+# -- This tool is were the ftdi-eeprom program is stored
+TOOL_SYSTEM_VERSION=1.1.2
 
 # -- Target architectures
 ARCH=$1
@@ -220,6 +223,38 @@ else
   test -d oss-cad-suite || tar vzxf $FILENAME_SRC > /dev/null
 fi
 
+# -------------------------------------------------------
+# -- DOWNLOAD the TOOL-SYSTEM package
+# -------------------------------------------------------
+# -- (for getting the eeprom-ftdi executable)
+# -- (not available in the oss-cad-suite)
+# -- (Not avaialbe for arm-64)
+TOOL_SYSTEM_URL_BASE=https://github.com/FPGAwars/tools-system/releases/download/v$TOOL_SYSTEM_VERSION
+TOOL_SYSTEM_TAR="tools-system-$ARCH-$TOOL_SYSTEM_VERSION.tar.gz"
+TOOL_SYSTEM_URL=$TOOL_SYSTEM_URL_BASE/$TOOL_SYSTEM_TAR
+TOOL_SYSTEM_SRC="$UPSTREAM_DIR/tools-system"
+
+echo "---> DOWNLOADING the TOOL-SYSTEM Package"
+echo "* Package:" 
+echo "  $TOOL_SYSTEM_TAR"
+echo "* URL: "
+echo "  $TOOL_SYSTEM_URL"
+echo ""
+
+# -- Download the tools-system package
+# -- If it has already been downloaded yet
+
+echo "--> Download tool-system package"
+echo ""
+cd "$UPSTREAM_DIR"
+mkdir -p tools-system
+cd tools-system
+test -e $TOOL_SYSTEM_TAR || wget $TOOL_SYSTEM_URL
+
+# -- Extract the tools-system package
+echo "--> Extracting the tool-system package"
+echo ""
+test -d bin || tar vzxf $TOOL_SYSTEM_TAR
 
 # -----------------------------------------------------------
 # -- Create the TARGET package
@@ -295,8 +330,3 @@ cd $PACKAGE_DIR
 
 tar vzcf ../$PACKAGE_NAME ./* 
 echo "--> Package created: $PACKAGE_NAME"
-
-
-
-
-
