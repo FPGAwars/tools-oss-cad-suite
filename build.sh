@@ -22,7 +22,7 @@ NAME=oss-cad-suite
 # -- set the new date
 YEAR=2023
 MONTH=10
-DAY=02
+DAY=03
 
 # -- Base URL for oss-cad-suite package
 SRC_URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
