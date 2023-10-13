@@ -328,5 +328,5 @@ sed -i "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/package.json
 
 cd $PACKAGE_DIR
 
-tar vzcf ../$PACKAGE_NAME ./* 
+tar zcf ../$PACKAGE_NAME ./* 
 echo "--> Package created: $PACKAGE_NAME"
