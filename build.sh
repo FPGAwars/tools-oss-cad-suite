@@ -25,7 +25,7 @@ MONTH=10
 DAY=03
 
 # -- Set the version for the new package
-VERSION=0.0.9
+VERSION=0.0.10
 
 # -- Base URL for oss-cad-suite package
 SRC_URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
