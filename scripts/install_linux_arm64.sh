@@ -142,7 +142,7 @@
 install $SOURCE_DIR/bin/openFPGALoader $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/openFPGALoader $PACKAGE_DIR/libexec
 
-install $SOURCE_DIR/lib/libhidapi-libusb.so* $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/libhidapi* $PACKAGE_DIR/lib
 
 # ------------------------
 # -- DFU
