@@ -22,7 +22,7 @@ jobs:
       - name: Build Script (Linux_x86_64)
         run: |
           ./build.sh linux_x86_64
-          version=$(cat VERSION)
+          version=$(cat VERSION_BUILD)
           echo "VERSION: $version"
           echo "VERSION=$version" >> $GITHUB_ENV
 
@@ -41,58 +41,21 @@ jobs:
         run: |
           ./build.sh windows_amd64
 
-      #-- Create the Release
-      - name: Create the Release
+      #-- Create the Release and upload files
+      - name: Create the Release and upload files
         id: create_release
-        uses: actions/create-release@v1.1.4
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.VERSION }}
-          release_name: v${{ env.VERSION }}
-          body: |
-            A new release
           draft: true
           prerelease: false
-
-      - name: Upload Linux_64 Release Asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: _packages/tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
-          asset_name: tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
-          asset_content_type: application/tar+gzip
-
-      - name: Upload Linux_aarch64 Release Asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: _packages/tools-oss-cad-suite-linux_aarch64-${{ env.VERSION }}.tar.gz
-          asset_name: tools-oss-cad-suite-linux_aarch64-${{ env.VERSION }}.tar.gz
-          asset_content_type: application/tar+gzip
-
-      - name: Upload MAC Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: _packages/tools-oss-cad-suite-darwin-${{ env.VERSION }}.tar.gz
-          asset_name: tools-oss-cad-suite-darwin-${{ env.VERSION }}.tar.gz
-          asset_content_type: application/tar+gzip
-
-      - name: Upload Window Release Asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: _packages/tools-oss-cad-suite-windows_amd64-${{ env.VERSION }}.tar.gz
-          asset_name: tools-oss-cad-suite-windows_amd64-${{ env.VERSION }}.tar.gz
-          asset_content_type: application/tar+gzip
+          tag_name: v${{ env.VERSION }}
+          body: A new release (Draft)
+          files: |
+            _packages/tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
+            _packages/tools-oss-cad-suite-linux_aarch64-${{ env.VERSION }}.tar.gz
+            _packages/tools-oss-cad-suite-darwin-${{ env.VERSION }}.tar.gz
+            _packages/tools-oss-cad-suite-windows_amd64-${{ env.VERSION }}.tar.gz
 
 
