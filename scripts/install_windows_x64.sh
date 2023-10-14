@@ -155,7 +155,11 @@ install $SOURCE_DIR/lib/libbz2*.dll $PACKAGE_DIR/lib
 
 
 # --------------------------------------
-# -- TODO: verilator
+# -- Verilator
 # --------------------------------------
 install $SOURCE_DIR/bin/verilator $PACKAGE_DIR/bin 
 install $SOURCE_DIR/bin/verilator_bin.exe $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/verilator_bin.exe $PACKAGE_DIR/libexec/
+mkdir -p $PACKAGE_DIR/share/verilator/include
+install $SOURCE_DIR/share/verilator/include/verilated_std.sv $PACKAGE_DIR/share/verilator/include
+
