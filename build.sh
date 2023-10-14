@@ -27,6 +27,11 @@ DAY=03
 # -- Set the version for the new package
 VERSION=0.0.10
 
+#-- This version is stored in a temporal file so that
+#-- github actions can read it and figure out the package
+#-- name for upload it to the new release
+echo "$VERSION" > "VERSION_BUILD"
+
 # -- Base URL for oss-cad-suite package
 SRC_URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
 
