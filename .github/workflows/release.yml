@@ -36,6 +36,12 @@ jobs:
         run: |
           ./build.sh darwin
 
+      # -- Build the package for MAC
+      - name: Build Script (MAC ARM64)
+        run: |
+          ./build.sh darwin_arm64
+
+ 
       # -- Build the package for WINDOWS
       - name: Build Script (Windows_amd64)
         run: |
@@ -56,6 +62,7 @@ jobs:
             _packages/tools-oss-cad-suite-linux_x86_64-${{ env.VERSION }}.tar.gz
             _packages/tools-oss-cad-suite-linux_aarch64-${{ env.VERSION }}.tar.gz
             _packages/tools-oss-cad-suite-darwin-${{ env.VERSION }}.tar.gz
+            _packages/tools-oss-cad-suite-darwin_arm64-${{ env.VERSION }}.tar.gz
             _packages/tools-oss-cad-suite-windows_amd64-${{ env.VERSION }}.tar.gz
 
 

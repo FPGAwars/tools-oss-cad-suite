@@ -87,10 +87,10 @@
   install $SOURCE_DIR/lib/libpcre*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/libfreetype*.dll $PACKAGE_DIR/lib
 
-  # -- Python 3.8
-  # -- The whole python 3.8 should be copied in lib/python3.8
-  mkdir -p $PACKAGE_DIR/lib/python3.8
-  cp -r $SOURCE_DIR/lib/python3.8/* $PACKAGE_DIR/lib/python3.8
+  # -- Python 3.11
+  # -- The whole python 3.8 should be copied in lib/python3.11
+  mkdir -p $PACKAGE_DIR/lib/python3.11
+  cp -r $SOURCE_DIR/lib/python3.11/* $PACKAGE_DIR/lib/python3.11
   
 #------------------------------------------
 #-- ECP5 tools

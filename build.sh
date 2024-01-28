@@ -20,9 +20,9 @@ NAME=oss-cad-suite
 # -- DATE. It is used for getting the oss-cad-suite source package
 # -- If you want to genete an updated oss-cad-suite apio packages
 # -- set the new date
-YEAR=2023
-MONTH=10
-DAY=03
+YEAR=2024
+MONTH=01
+DAY=28
 
 # -- Set the version for the new package
 VERSION=0.0.10
@@ -44,7 +44,7 @@ TOOL_SYSTEM_VERSION=1.1.2
 
 # -- Target architectures
 ARCH=$1
-TARGET_ARCHS="linux_x86_64 linux_aarch64 windows_amd64 darwin"
+TARGET_ARCHS="linux_x86_64 linux_aarch64 windows_amd64 darwin darwin_arm64"
 
 # -- Print the help message and exit
 function print_help_exit {
@@ -55,7 +55,7 @@ function print_help_exit {
   echo "  * linux_x86_64  : Linux 64-bits"
   echo "  * linux_aarch64 : Linux ARM 64-bits"
   echo "  * windows_amd64 : Windows 64-bits"
-  echo "  * darwin        : MAC"
+  echo "  * darwin        : MAC ARM64"
   echo ""
   echo "Example:"
   echo "bash build.sh linux_x86_64"
@@ -140,11 +140,13 @@ echo ""
 # --     linux_aarch64              linux-arm64
 # --     windows_amd64              windows-x64
 # --     darwin                     darwin-x64
+# --     darwin_arm64               darwin-arm64
 
 # --  if ARCH == linux_x86_64  --> ARCH_SRC = linux-x64
 # --  if ARCH == linux_aarch64 --> ARCH_SRC = linux-arm64
 # --  if ARCH == windows_amd64 --> ARCH_SRC = windows-x64
 # --  if ARCH == darwin ---> ARCH_SRC = darwin-x64
+# --  if ARCH == darwin_arm64 ---> ARCH_SRC = darwin-arm64
 
 
 if [ "${ARCH}" == "linux_x86_64" ]; then
@@ -164,6 +166,11 @@ fi
 
 if [ "${ARCH}" == "darwin" ]; then
    ARCH_SRC="darwin-x64"
+   EXT_SRC="tgz"
+fi
+
+if [ "${ARCH}" == "darwin_arm64" ]; then
+   ARCH_SRC="darwin-arm64"
    EXT_SRC="tgz"
 fi
 
@@ -235,33 +242,41 @@ fi
 # -- (for getting the eeprom-ftdi executable)
 # -- (not available in the oss-cad-suite)
 # -- (Not avaialbe for arm-64)
-TOOL_SYSTEM_URL_BASE=https://github.com/FPGAwars/tools-system/releases/download/v$TOOL_SYSTEM_VERSION
-TOOL_SYSTEM_TAR="tools-system-$ARCH-$TOOL_SYSTEM_VERSION.tar.gz"
-TOOL_SYSTEM_URL=$TOOL_SYSTEM_URL_BASE/$TOOL_SYSTEM_TAR
-TOOL_SYSTEM_SRC="$UPSTREAM_DIR/tools-system"
 
-echo "---> DOWNLOADING the TOOL-SYSTEM Package"
-echo "* Package:" 
-echo "  $TOOL_SYSTEM_TAR"
-echo "* URL: "
-echo "  $TOOL_SYSTEM_URL"
-echo ""
+if [ "${ARCH}" == "darwin_arm64" ]; then
+  echo ""
+  echo "---> OSX ARM 64 HAS NOT TOOL-SYSTEM PACKAGE"
+  echo ""
 
-# -- Download the tools-system package
-# -- If it has already been downloaded yet
+else
+  TOOL_SYSTEM_URL_BASE=https://github.com/FPGAwars/tools-system/releases/download/v$TOOL_SYSTEM_VERSION
+  TOOL_SYSTEM_TAR="tools-system-$ARCH-$TOOL_SYSTEM_VERSION.tar.gz"
+  TOOL_SYSTEM_URL=$TOOL_SYSTEM_URL_BASE/$TOOL_SYSTEM_TAR
+  TOOL_SYSTEM_SRC="$UPSTREAM_DIR/tools-system"
 
-echo "--> Download tool-system package"
-echo ""
-cd "$UPSTREAM_DIR"
-mkdir -p tools-system
-cd tools-system
-test -e $TOOL_SYSTEM_TAR || wget $TOOL_SYSTEM_URL
+  echo "---> DOWNLOADING the TOOL-SYSTEM Package"
+  echo "* Package:" 
+  echo "  $TOOL_SYSTEM_TAR"
+  echo "* URL: "
+  echo "  $TOOL_SYSTEM_URL"
+  echo ""
 
-# -- Extract the tools-system package
-echo "--> Extracting the tool-system package"
-echo ""
-test -d bin || tar vzxf $TOOL_SYSTEM_TAR
+  # -- Download the tools-system package
+  # -- If it has already been downloaded yet
 
+  echo "--> Download tool-system package"
+  echo ""
+  cd "$UPSTREAM_DIR"
+  mkdir -p tools-system
+  cd tools-system
+  test -e $TOOL_SYSTEM_TAR || wget $TOOL_SYSTEM_URL
+
+  # -- Extract the tools-system package
+  echo "--> Extracting the tool-system package"
+  echo ""
+  test -d bin || tar vzxf $TOOL_SYSTEM_TAR
+
+end
 # -----------------------------------------------------------
 # -- Create the TARGET package
 # -----------------------------------------------------------
@@ -307,6 +322,13 @@ if [ "$ARCH" == "darwin" ]; then
 
   . "$WORK_DIR"/scripts/install_darwin.sh
 fi
+
+# --- Files to copy for the MAC platforms
+if [ "$ARCH" == "darwin_arm64" ]; then
+
+  . "$WORK_DIR"/scripts/install_darwin_arm64.sh
+fi
+
 
 
 # --- Files to copy for the WINDOWS platforms

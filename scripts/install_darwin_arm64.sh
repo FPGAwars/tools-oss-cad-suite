@@ -97,7 +97,7 @@ install $SOURCE_DIR/lib/libgraphite2* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/libintl* $PACKAGE_DIR/lib
 
 # -- Python 3.11
-# -- The whole python 3.11 should be copied in lib/python3.11
+# -- The whole python 3.8 should be copied in lib/python3.8
 mkdir -p $PACKAGE_DIR/lib/python3.11
 cp -r $SOURCE_DIR/lib/python3.11/* $PACKAGE_DIR/lib/python3.11
 

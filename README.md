@@ -16,7 +16,7 @@ Find all the information on the [WIKI page](https://github.com/FPGAwars/tools-os
 
 
 ## Contributors
-
+* [Sam] Thanks to OSX arm64 issues @ProbabilityEngineer at github (https://github.com/FPGAwars/icestudio/issues/705, https://github.com/FPGAwars/tools-oss-cad-suite/issues/5)
 
 ## License
 
