@@ -55,7 +55,8 @@ function print_help_exit {
   echo "  * linux_x86_64  : Linux 64-bits"
   echo "  * linux_aarch64 : Linux ARM 64-bits"
   echo "  * windows_amd64 : Windows 64-bits"
-  echo "  * darwin        : MAC ARM64"
+  echo "  * darwin        : MAC x64"
+  echo "  * darwin_arm64  : MAC arm64"
   echo ""
   echo "Example:"
   echo "bash build.sh linux_x86_64"
@@ -276,7 +277,7 @@ else
   echo ""
   test -d bin || tar vzxf $TOOL_SYSTEM_TAR
 
-end
+fi
 # -----------------------------------------------------------
 # -- Create the TARGET package
 # -----------------------------------------------------------
