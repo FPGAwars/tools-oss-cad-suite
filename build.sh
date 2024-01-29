@@ -25,7 +25,7 @@ MONTH=01
 DAY=28
 
 # -- Set the version for the new package
-VERSION=0.0.10
+VERSION=0.1.0
 
 #-- This version is stored in a temporal file so that
 #-- github actions can read it and figure out the package
