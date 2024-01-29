@@ -31,15 +31,9 @@
   install $SOURCE_DIR/bin/yosys-abc.exe $PACKAGE_DIR/bin
 
   # -- Libraries
-  install $SOURCE_DIR/lib/libstdc++*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libreadline*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libffi*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libdl.dll $PACKAGE_DIR/lib
+  install $SOURCE_DIR/lib/lib* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/tcl*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libgcc_s*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/zlib1.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libwinpthread*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libtermcap*.dll $PACKAGE_DIR/lib
 
   # -- Share
   mkdir -p $PACKAGE_DIR/share/yosys
@@ -68,24 +62,13 @@
   install $SOURCE_DIR/bin/nextpnr-ice40.exe $PACKAGE_DIR/bin
 
   # -- Libraries
-  install $SOURCE_DIR/lib/libboost_filesystem*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libboost_program_options*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libboost_thread*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpython*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/Qt5Widgets*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/Qt5Gui*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/Qt5Core*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpng16*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libharfbuzz*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libexpat*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/icuuc*.dll $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/iconv*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpcre2-*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libintl*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libglib-2.0* $PACKAGE_DIR/lib
   install $SOURCE_DIR/lib/icudata*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libpcre*.dll $PACKAGE_DIR/lib
-  install $SOURCE_DIR/lib/libfreetype*.dll $PACKAGE_DIR/lib
+
 
   # -- Python 3.11
   # -- The whole python 3.8 should be copied in lib/python3.11
@@ -150,7 +133,6 @@ install $SOURCE_DIR/bin/iverilog-vpi.exe $PACKAGE_DIR/bin
 # -- Libraries
 mkdir -p $PACKAGE_DIR/lib/ivl
 cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl
-install $SOURCE_DIR/lib/libbz2*.dll $PACKAGE_DIR/lib
 
 
 

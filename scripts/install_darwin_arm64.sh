@@ -12,8 +12,7 @@ install $SOURCE_DIR/libexec/realpath $PACKAGE_DIR/libexec
 
 
 # -- Libraries
-install $SOURCE_DIR/lib/libusb-1.0.0.dylib $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libftdi1.2.5.0.dylib $PACKAGE_DIR/lib
+install $SOURCE_DIR/lib/lib* $PACKAGE_DIR/lib
 
 # ---------------------------
 # -- Iceprog
@@ -31,13 +30,7 @@ install $SOURCE_DIR/bin/yosys-abc $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/yosys-abc $PACKAGE_DIR/libexec
 
 # -- Libraries
-install $SOURCE_DIR/lib/libreadline* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libffi* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libz* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libtcl* $PACKAGE_DIR/lib
 install $SOURCE_DIR/lib/yosys-abc $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libncurses* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_iostreams* $PACKAGE_DIR/lib
 
 # -- Share
 mkdir -p $PACKAGE_DIR/share/yosys
@@ -73,28 +66,6 @@ cp -r $SOURCE_DIR/share/icebox/* $PACKAGE_DIR/share/icebox
 install $TEMPLATE/nextpnr-ice40 $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/nextpnr-ice40 $PACKAGE_DIR/libexec
 
-# -- Libraries
-install $SOURCE_DIR/lib/libboost_filesystem* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_chrono* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_system* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_regex* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_date* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_atom* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_program_options* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libboost_thread* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libpython3.8* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libpng16* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libharfbuzz* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libexpat* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libharfbuzz* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libicui18n* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libicuuc* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libpcre* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libglib-2.0* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libicudata* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libfreetype* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libgraphite2* $PACKAGE_DIR/lib
-install $SOURCE_DIR/lib/libintl* $PACKAGE_DIR/lib
 
 # -- Python 3.11
 # -- The whole python 3.8 should be copied in lib/python3.8
@@ -145,7 +116,6 @@ install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 install $SOURCE_DIR/bin/openFPGALoader $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/openFPGALoader $PACKAGE_DIR/libexec
 
-install $SOURCE_DIR/lib/libhidapi* $PACKAGE_DIR/lib
 
 # ------------------------
 # -- DFU
@@ -185,7 +155,6 @@ install $SOURCE_DIR/libexec/ivlpp $PACKAGE_DIR/libexec
 # -- Libraries
 mkdir -p $PACKAGE_DIR/lib/ivl
 cp -r $SOURCE_DIR/lib/ivl/* $PACKAGE_DIR/lib/ivl 
-install $SOURCE_DIR/lib/libbz* $PACKAGE_DIR/lib
 
 # --------------------------------------
 # -- Verilator

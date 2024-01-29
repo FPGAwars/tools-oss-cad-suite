@@ -22,7 +22,7 @@ NAME=oss-cad-suite
 # -- set the new date
 YEAR=2024
 MONTH=01
-DAY=28
+DAY=29
 
 # -- Set the version for the new package
 VERSION=0.1.0
