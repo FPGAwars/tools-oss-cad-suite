@@ -20,9 +20,9 @@ NAME=oss-cad-suite
 # -- DATE. It is used for getting the oss-cad-suite source package
 # -- If you want to genete an updated oss-cad-suite apio packages
 # -- set the new date
-YEAR=2023
-MONTH=11
-DAY=24
+YEAR=2024
+MONTH=01
+DAY=19
 
 # -- Set the version for the new package
 VERSION=0.1.0
