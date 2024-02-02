@@ -21,8 +21,8 @@ NAME=oss-cad-suite
 # -- If you want to genete an updated oss-cad-suite apio packages
 # -- set the new date
 YEAR=2023
-MONTH=12
-DAY=12
+MONTH=11
+DAY=22
 
 # -- Set the version for the new package
 VERSION=0.1.0
