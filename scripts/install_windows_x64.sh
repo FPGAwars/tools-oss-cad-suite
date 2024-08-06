@@ -97,7 +97,7 @@ install $SOURCE_DIR/bin/nextpnr-ecp5.exe $PACKAGE_DIR/bin
 # -----------------------------------
 # -- NETXPNR-Gowin
 # -----------------------------------
-install $SOURCE_DIR/bin/nextpnr-gowin.exe $PACKAGE_DIR/bin
+install $SOURCE_DIR/bin/nextpnr-himbaechel.exe $PACKAGE_DIR/bin
 
 # ---------------------------------------------------------
 # -- SIMULATION!!

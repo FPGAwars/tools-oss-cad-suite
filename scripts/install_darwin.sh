@@ -111,8 +111,8 @@ install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 # -----------------------------------
 # -- NETXPNR-Gowin
 # -----------------------------------
-install $SOURCE_DIR/bin/nextpnr-gowin $PACKAGE_DIR/bin
-install $SOURCE_DIR/libexec/nextpnr-gowin $PACKAGE_DIR/libexec
+install $SOURCE_DIR/bin/nextpnr-himbaechel $PACKAGE_DIR/bin
+install $SOURCE_DIR/libexec/nextpnr-himbaechel $PACKAGE_DIR/libexec
 
 #-------------------------------------------------------------
 #-- PROGRAMMERS!!
