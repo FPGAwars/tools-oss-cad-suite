@@ -91,6 +91,20 @@ cp -r $SOURCE_DIR/share/trellis/* $PACKAGE_DIR/share/trellis
 install $SOURCE_DIR/bin/nextpnr-ecp5.exe $PACKAGE_DIR/bin
 
 
+#------------------------------------------
+#-- Gowin tools
+#------------------------------------------
+# -----------------------------------
+# -- NETXPNR-Gowin
+# -----------------------------------
+install $SOURCE_DIR/bin/nextpnr-himbaechel.exe $PACKAGE_DIR/bin
+
+#------------------------------------------
+#-- Nextpnr Share
+#------------------------------------------
+mkdir -p $PACKAGE_DIR/share/nextpnr
+cp -r $SOURCE_DIR/share/nextpnr/* $PACKAGE_DIR/share/nextpnr
+
 # ---------------------------------------------------------
 # -- SIMULATION!!
 # ---------------------------------------------------------
