@@ -244,9 +244,9 @@ fi
 # -- (not available in the oss-cad-suite)
 # -- (Not avaialbe for arm-64)
 
-if [ "${ARCH}" == "darwin_arm64" ]; then
+if [ "${ARCH}" == "darwin_arm64" || "${ARCH}" == "linux_aarch64" ]; then
   echo ""
-  echo "---> OSX ARM 64 HAS NOT TOOL-SYSTEM PACKAGE"
+  echo "---> ARM 64 HAS NOT TOOL-SYSTEM PACKAGE"
   echo ""
 
 else
