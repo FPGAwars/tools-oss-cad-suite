@@ -66,9 +66,8 @@ cp -r $SOURCE_DIR/share/icebox/* $PACKAGE_DIR/share/icebox
 install $TEMPLATE/nextpnr-ice40 $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/nextpnr-ice40 $PACKAGE_DIR/libexec
 
-
 # -- Python 3.11
-# -- The whole python 3.8 should be copied in lib/python3.8
+# -- The whole python 3.11 should be copied in lib/python3.11
 mkdir -p $PACKAGE_DIR/lib/python3.11
 cp -r $SOURCE_DIR/lib/python3.11/* $PACKAGE_DIR/lib/python3.11
 
@@ -106,7 +105,6 @@ install $SOURCE_DIR/bin/nextpnr-ecp5 $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 
 
-
 #------------------------------------------
 #-- Gowin tools
 #------------------------------------------
@@ -116,7 +114,6 @@ install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 # -----------------------------------
 install $SOURCE_DIR/bin/nextpnr-himbaechel $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/nextpnr-himbaechel $PACKAGE_DIR/libexec
-
 
 
 #------------------------------------------
@@ -183,4 +180,15 @@ install $SOURCE_DIR/bin/verilator_bin $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/verilator_bin $PACKAGE_DIR/libexec/
 mkdir -p $PACKAGE_DIR/share/verilator/include
 install $SOURCE_DIR/share/verilator/include/verilated_std.sv $PACKAGE_DIR/share/verilator/include
+
+# --------------------------------------
+# -- gtkwave
+# --------------------------------------
+install $SOURCE_DIR/bin/gtkwave $PACKAGE_DIR/bin
+
+install $SOURCE_DIR/libexec/gtkwave $PACKAGE_DIR/libexec/
+install $SOURCE_DIR/libexec/gdk-pixbuf-query-loaders $PACKAGE_DIR/libexec/
+
+mkdir -p $PACKAGE_DIR/lib/gdk-pixbuf-2.0/loaders
+install $SOURCE_DIR/lib/gdk-pixbuf-2.0/loaders/* $PACKAGE_DIR/lib/gdk-pixbuf-2.0/loaders
 

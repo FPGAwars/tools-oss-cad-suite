@@ -108,6 +108,7 @@ install $SOURCE_DIR/libexec/nextpnr-ecp5 $PACKAGE_DIR/libexec
 #------------------------------------------
 #-- Gowin tools
 #------------------------------------------
+
 # -----------------------------------
 # -- NETXPNR-Gowin
 # -----------------------------------
@@ -179,4 +180,15 @@ install $SOURCE_DIR/bin/verilator_bin $PACKAGE_DIR/bin
 install $SOURCE_DIR/libexec/verilator_bin $PACKAGE_DIR/libexec/
 mkdir -p $PACKAGE_DIR/share/verilator/include
 install $SOURCE_DIR/share/verilator/include/verilated_std.sv $PACKAGE_DIR/share/verilator/include
+
+# --------------------------------------
+# -- gtkwave
+# --------------------------------------
+install $SOURCE_DIR/bin/gtkwave $PACKAGE_DIR/bin
+
+install $SOURCE_DIR/libexec/gtkwave $PACKAGE_DIR/libexec/
+install $SOURCE_DIR/libexec/gdk-pixbuf-query-loaders $PACKAGE_DIR/libexec/
+
+mkdir -p $PACKAGE_DIR/lib/gdk-pixbuf-2.0/loaders
+install $SOURCE_DIR/lib/gdk-pixbuf-2.0/loaders/* $PACKAGE_DIR/lib/gdk-pixbuf-2.0/loaders
 
