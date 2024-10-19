@@ -3,6 +3,18 @@
 #      oss cad suite Apio package builder   #
 #############################################
 
+# Mac OSX Note:
+# Install 7-zip and create for it a symling claled '7z':
+#
+# brew 7-zip
+# ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
+
+# For debugging, echo executed commands.
+# set -x
+
+# Exit on any error
+set -e
+
 # Set english language for propper pattern matching
 export LC_ALL=C
 
@@ -244,7 +256,7 @@ fi
 # -- (not available in the oss-cad-suite)
 # -- (Not avaialbe for arm-64)
 
-if [ "${ARCH}" == "darwin_arm64" || "${ARCH}" == "linux_aarch64" ]; then
+if [ "${ARCH}" == "darwin_arm64" ] || [ "${ARCH}" == "linux_aarch64" ]; then
   echo ""
   echo "---> ARM 64 HAS NOT TOOL-SYSTEM PACKAGE"
   echo ""
@@ -352,8 +364,8 @@ echo ""
 echo ""
 PACKAGE_JSON="$PACKAGE_DIR"/package.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json $PACKAGE_JSON
-sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/package.json
-sed -i "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/package.json
+sed -i "" "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/package.json
+sed -i "" "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/package.json
 
 cd $PACKAGE_DIR
 
