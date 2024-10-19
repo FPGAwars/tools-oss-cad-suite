@@ -352,8 +352,8 @@ echo ""
 echo ""
 PACKAGE_JSON="$PACKAGE_DIR"/package.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json $PACKAGE_JSON
-sed -i "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/package.json
-sed -i "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/package.json
+sed -i "" "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/package.json
+sed -i "" "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/package.json
 
 cd $PACKAGE_DIR
 
