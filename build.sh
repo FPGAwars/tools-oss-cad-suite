@@ -304,14 +304,17 @@ echo ""
 # -- Create the folders of the target package
 SOURCE_DIR=$UPSTREAM_DIR/oss-cad-suite
 
-mkdir -p $PACKAGE_DIR/bin
-mkdir -p $PACKAGE_DIR/lib
-mkdir -p $PACKAGE_DIR/libexec
-
 # -------------------------------------------------------
 # - Copy the files to be included in the package
 # - The files depend on the platform
 #-------------------------------------------------------
+
+# -- Assert that the destination package directory is empty.
+# -- As expected by the individual script/install* files.
+if [ "$(ls -A $PACKAGE_DIR)" ]; then
+     echo "Error: [$PACKAGE_DIR] is not empty."
+     exit 1
+fi
 
 # -- Copy the selected files to the target dir
 echo "--> Copying files"

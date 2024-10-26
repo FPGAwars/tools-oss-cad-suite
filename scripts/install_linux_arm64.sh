@@ -1,3 +1,11 @@
+# This file is sourced in rather than executed a a top level script.
+# Destination directory $PACKAGE_DIR is assumed to be empty.
+
+# -- Create key directories.
+mkdir -p $PACKAGE_DIR/bin
+mkdir -p $PACKAGE_DIR/lib
+mkdir -p $PACKAGE_DIR/libexec
+ 
  # --------------------
  # -- System tools
  # --------------------
