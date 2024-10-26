@@ -360,12 +360,14 @@ echo ""
 echo "---> CREATE THE TARGET PACKAGE"
 echo ""
 
-# -- Copy templates/package-template.json
+# -- Copy templates/package-template.json and fill-in version and arch.
+# -- Using in-place flag with an actual ".bak" suffix for OSX compatibilty.
 echo ""
 PACKAGE_JSON="$PACKAGE_DIR"/package.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json $PACKAGE_JSON
-sed -i "" "s/%VERSION%/\"$VERSION\"/;" "$PACKAGE_DIR"/package.json
-sed -i "" "s/%SYSTEM%/\"$ARCH\"/;" "$PACKAGE_DIR"/package.json
+sed -i.bak "s/%VERSION%/\"$VERSION\"/;" $PACKAGE_JSON
+sed -i.bak "s/%SYSTEM%/\"$ARCH\"/;" $PACKAGE_JSON
+rm ${PACKAGE_JSON}.bak
 
 cd $PACKAGE_DIR
 
