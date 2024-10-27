@@ -6,6 +6,7 @@ cp -rp $SOURCE_DIR/bin $PACKAGE_DIR
 cp -rp $SOURCE_DIR/lib $PACKAGE_DIR
 cp -rp $SOURCE_DIR/libexec $PACKAGE_DIR
 cp -rp $SOURCE_DIR/share $PACKAGE_DIR
+cp -rp $SOURCE_DIR/Frameworks $PACKAGE_DIR
 
 # -- Replace bin/nextpnr-ice40 with our simplified template.
 install $TEMPLATE/nextpnr-ice40 $PACKAGE_DIR/bin
