@@ -249,16 +249,19 @@ else
   test -d oss-cad-suite || tar vzxf $FILENAME_SRC > /dev/null
 fi
 
-# -------------------------------------------------------
-# -- DOWNLOAD the TOOL-SYSTEM package
-# -------------------------------------------------------
-# -- (for getting the eeprom-ftdi executable)
-# -- (not available in the oss-cad-suite)
-# -- (Not avaialbe for arm-64)
+# --------------------------------------------------------------------------
+# -- DOWNLOAD the upstream TOOL-SYSTEM package for selected architectures.
+# --------------------------------------------------------------------------
+# -- This package provides the eeprom-ftdi executable which is used in
+# -- production of boards such as Alhambra II. This utility is usually not
+# -- needed by users of apio and is included in the tools-oss-cad-suite
+# -- package as convinience.
+# --
+# -- See https://github.com/FPGAwars/apio/issues/447 for more details.
 
-if [ "${ARCH}" == "darwin_arm64" ] || [ "${ARCH}" == "linux_aarch64" ]; then
+if [ "${ARCH}" != "linux_x86_64" ] && [ "${ARCH}" != "windows_amd64" ]; then
   echo ""
-  echo "---> ARM 64 HAS NOT TOOL-SYSTEM PACKAGE"
+  echo "---> Skipping TOOL-SYSTEM package for [${ARCH}]."
   echo ""
 
 else
@@ -290,6 +293,8 @@ else
   test -d bin || tar vzxf $TOOL_SYSTEM_TAR
 
 fi
+
+
 # -----------------------------------------------------------
 # -- Create the TARGET package
 # -----------------------------------------------------------
