@@ -25,19 +25,19 @@ export LC_ALL=C
 
 #-----------------------------------------------------------
 # -- INPUT parameters
-#
-# -- Tool name
-NAME=oss-cad-suite
 
-# -- DATE. It is used for getting the oss-cad-suite source package
-# -- If you want to genete an updated oss-cad-suite apio packages
-# -- set the new date
+# -- Set the version the generated apio package
+VERSION=0.1.1
+
+# -- The version of the upstream oss-cad-suite to use, specified
+# as a date.
 YEAR=2024
 MONTH=08
 DAY=02
 
-# -- Set the version for the new package
-VERSION=0.1.0
+# -- The name of the generated apio package. This typically does not
+# -- need to be cahnged.
+NAME=oss-cad-suite
 
 #-- This version is stored in a temporal file so that
 #-- github actions can read it and figure out the package
