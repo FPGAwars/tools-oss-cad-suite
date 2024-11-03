@@ -1,6 +1,8 @@
 # This file is sourced in rather than executed a a top level script.
 # Destination directory $PACKAGE_DIR is assumed to be empty.
 
+assert_dir_empty $PACKAGE_DIR
+
 # -- Copy entire directory trees.
 cp -rp $SOURCE_DIR/bin $PACKAGE_DIR
 cp -rp $SOURCE_DIR/lib $PACKAGE_DIR
@@ -13,3 +15,9 @@ cp -rp $SOURCE_DIR/license $PACKAGE_DIR
 install $SOURCE_DIR/activate $PACKAGE_DIR
 install $SOURCE_DIR/environment $PACKAGE_DIR
 install $SOURCE_DIR/README $PACKAGE_DIR
+
+# -- Sanity checks
+assert_executable $PACKAGE_DIR/bin/yosys
+assert_executable $PACKAGE_DIR/bin/nextpnr-ice40 
+assert_executable $PACKAGE_DIR/bin/nextpnr-ecp5
+assert_executable $PACKAGE_DIR/bin/nextpnr-himbaechel

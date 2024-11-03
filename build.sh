@@ -18,10 +18,11 @@ set -e
 # Set english language for propper pattern matching
 export LC_ALL=C
 
+# -- Include the assertions.
+source scripts/assertions.sh
+
 # Generate tools-oss-cad-suite-arch-ver.tar.gz from the  
 # oss-cad-suite release file
-
-
 
 #-----------------------------------------------------------
 # -- INPUT parameters
@@ -314,13 +315,6 @@ SOURCE_DIR=$UPSTREAM_DIR/oss-cad-suite
 # - The files depend on the platform
 #-------------------------------------------------------
 
-# -- Assert that the destination package directory is empty.
-# -- As expected by the individual script/install* files.
-if [ "$(ls -A $PACKAGE_DIR)" ]; then
-     echo "Error: [$PACKAGE_DIR] is not empty."
-     exit 1
-fi
-
 # -- Copy the selected files to the target dir
 echo "--> Copying files"
 echo ""
@@ -328,34 +322,31 @@ echo ""
 # --- Files to copy for the Linux x64 platforms
 if [ "$ARCH" == "linux_x86_64" ]; then
 
-  . "$WORK_DIR"/scripts/install_linux_x64.sh
+  source "$WORK_DIR"/scripts/install_linux_x64.sh
 fi
 
 # --- Files to copy for the Linux ARM-64 platforms
 if [ "$ARCH" == "linux_aarch64" ]; then
 
-  . "$WORK_DIR"/scripts/install_linux_arm64.sh
+  source "$WORK_DIR"/scripts/install_linux_arm64.sh
 fi
-
 
 # --- Files to copy for the MAC platforms
 if [ "$ARCH" == "darwin" ]; then
 
-  . "$WORK_DIR"/scripts/install_darwin.sh
+  source "$WORK_DIR"/scripts/install_darwin.sh
 fi
 
 # --- Files to copy for the MAC platforms
 if [ "$ARCH" == "darwin_arm64" ]; then
 
-  . "$WORK_DIR"/scripts/install_darwin_arm64.sh
+  source "$WORK_DIR"/scripts/install_darwin_arm64.sh
 fi
-
-
 
 # --- Files to copy for the WINDOWS platforms
 if [ "$ARCH" == "windows_amd64" ]; then
 
-  . "$WORK_DIR"/scripts/install_windows_x64.sh  
+  source "$WORK_DIR"/scripts/install_windows_x64.sh  
 fi
 
 # -- Debug: Stop here!
