@@ -28,7 +28,7 @@ source scripts/assertions.sh
 # -- INPUT parameters
 
 # -- Set the version the generated apio package
-VERSION=0.1.1
+VERSION=0.2.0
 
 # -- The version of the upstream oss-cad-suite to use, specified
 # as a date.
@@ -105,8 +105,10 @@ fi
 
 echo ""
 echo "******* Building tools-$NAME apio package"
-echo ">>> ARCHITECTURE \"$ARCH\""
+# echo ">>> ARCHITECTURE \"$ARCH\""
 echo ""
+echo "* ARCH:"
+echo "  $ARCH"
 
 # ---------------------------------------------------------------------
 # - Create the folders to use for downloading the upstreams package
@@ -159,7 +161,7 @@ echo ""
 # --  if ARCH == linux_x86_64  --> ARCH_SRC = linux-x64
 # --  if ARCH == linux_aarch64 --> ARCH_SRC = linux-arm64
 # --  if ARCH == windows_amd64 --> ARCH_SRC = windows-x64
-# --  if ARCH == darwin ---> ARCH_SRC = darwin-x64
+# --  if ARCH == darwin       ---> ARCH_SRC = darwin-x64
 # --  if ARCH == darwin_arm64 ---> ARCH_SRC = darwin-arm64
 
 
@@ -207,9 +209,13 @@ FILE_DATE=$YEAR$MONTH$DAY
 # -- Upstream filename
 FILENAME_SRC="oss-cad-suite-$ARCH_SRC-$FILE_DATE.$EXT_SRC"
 
-echo "> Upstream package name:"
+echo "* Upstream package name:"
 echo "  $FILENAME_SRC"
 echo ""
+
+# --------------------------------------------------
+# ---- DOWNLOAD THE UPSTREAM oss-cad-suite PACKAGE
+# --------------------------------------------------
 
 # -- Create the complete URL for downloading the upstream package
 # -- Example or URL:
@@ -220,14 +226,10 @@ echo ""
 RELEASE_TAG=$YEAR-$MONTH-$DAY
 SRC_URL=$SRC_URL_BASE/$RELEASE_TAG/$FILENAME_SRC
 
-echo "---> DOWNLOADING UPSTREAM PACKAGES"
+echo "---> Downloading upstream OSS-CAD-SUITE package."
+echo ""
 echo "* URL: "
 echo "  $SRC_URL"
-echo ""
-
-# --------------------------------------------------
-# ---- DOWNLOAD THE UPSTREAM oss-cad-suite PACKAGE
-# --------------------------------------------------
 
 # -- Change to the upstream folder
 cd "$UPSTREAM_DIR"
@@ -238,8 +240,8 @@ test -e $FILENAME_SRC || wget -nv $SRC_URL
 
 # --- Uncompress the upstream file
 # --- if it has not already been done previously
-echo "---> EXTRACTING the upstream package"
 echo ""
+echo "---> Extracting the upstream OSS-CAD-SUITE package."
 
 # -- On windows platforms we use 7z, as it is an self-extract .exe file
 if [ "${ARCH:0:7}" == "windows" ]; then
@@ -263,7 +265,6 @@ fi
 if [ "${ARCH}" != "linux_x86_64" ] && [ "${ARCH}" != "windows_amd64" ]; then
   echo ""
   echo "---> Skipping TOOL-SYSTEM package for [${ARCH}]."
-  echo ""
 
 else
   TOOL_SYSTEM_URL_BASE=https://github.com/FPGAwars/tools-system/releases/download/v$TOOL_SYSTEM_VERSION
@@ -271,53 +272,40 @@ else
   TOOL_SYSTEM_URL=$TOOL_SYSTEM_URL_BASE/$TOOL_SYSTEM_TAR
   TOOL_SYSTEM_SRC="$UPSTREAM_DIR/tools-system"
 
-  echo "---> DOWNLOADING the TOOL-SYSTEM Package"
+  echo "---> DOWNLOADING the upstream TOOL-SYSTEM package"
+
   echo "* Package:" 
   echo "  $TOOL_SYSTEM_TAR"
   echo "* URL: "
   echo "  $TOOL_SYSTEM_URL"
-  echo ""
 
   # -- Download the tools-system package
   # -- If it has already been downloaded yet
 
-  echo "--> Download tool-system package"
-  echo ""
+  # echo "---> Download tool-system package"
+  # echo ""
   cd "$UPSTREAM_DIR"
-  mkdir -p tools-system
-  cd tools-system
   test -e $TOOL_SYSTEM_TAR || wget $TOOL_SYSTEM_URL
 
   # -- Extract the tools-system package
-  echo "--> Extracting the tool-system package"
-  echo ""
-  test -d bin || tar vzxf $TOOL_SYSTEM_TAR
-
+  mkdir -p tools-system
+  cd tools-system
+  echo "---> Extracting the TOOL-SYSTEM package"
+  test -d bin || tar vzxf ../$TOOL_SYSTEM_TAR
 fi
-
 
 # -----------------------------------------------------------
 # -- Create the TARGET package
 # -----------------------------------------------------------
 PACKAGE_NAME=tools-oss-cad-suite-$ARCH-$VERSION.tar.gz
 echo ""
-echo "---> CREATE THE TARGET PACKAGE"
+echo "---> Copying upstream files to the target package"
 echo ""
-echo "* Package:"
+echo "* Target package:"
 echo "  $PACKAGE_NAME"
-echo ""
 
 # -- Create the folders of the target package
 SOURCE_DIR=$UPSTREAM_DIR/oss-cad-suite
-
-# -------------------------------------------------------
-# - Copy the files to be included in the package
-# - The files depend on the platform
-#-------------------------------------------------------
-
-# -- Copy the selected files to the target dir
-echo "--> Copying files"
-echo ""
 
 # --- Files to copy for the Linux x64 platforms
 if [ "$ARCH" == "linux_x86_64" ]; then
@@ -349,26 +337,24 @@ if [ "$ARCH" == "windows_amd64" ]; then
   source "$WORK_DIR"/scripts/install_windows_x64.sh  
 fi
 
-# -- Debug: Stop here!
-#exit 1
-
 # -----------------------------------------------------------
-# -- Create the TARGET package
+# -- Set package version.
 # -----------------------------------------------------------
 echo ""
-echo "---> CREATE THE TARGET PACKAGE"
-echo ""
+echo "---> Setting target package metadata."
 
 # -- Copy templates/package-template.json and fill-in version and arch.
 # -- Using in-place flag with an actual ".bak" suffix for OSX compatibilty.
-echo ""
 PACKAGE_JSON="$PACKAGE_DIR"/package.json
 cp -r "$WORK_DIR"/build-data/templates/package-template.json $PACKAGE_JSON
 sed -i.bak "s/%VERSION%/\"$VERSION\"/;" $PACKAGE_JSON
 sed -i.bak "s/%SYSTEM%/\"$ARCH\"/;" $PACKAGE_JSON
 rm ${PACKAGE_JSON}.bak
 
+echo ""
+echo "---> Compressing the target package."
 cd $PACKAGE_DIR
-
 tar zcf ../$PACKAGE_NAME ./* 
+
+echo ""
 echo "--> Package created: $PACKAGE_NAME"

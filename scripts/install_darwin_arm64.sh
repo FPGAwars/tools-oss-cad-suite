@@ -4,20 +4,14 @@
 assert_dir_empty $PACKAGE_DIR
 
 # -- Copy entire directory trees.
-cp -rp $SOURCE_DIR/bin $PACKAGE_DIR
-cp -rp $SOURCE_DIR/lib $PACKAGE_DIR
-cp -rp $SOURCE_DIR/libexec $PACKAGE_DIR
-cp -rp $SOURCE_DIR/share $PACKAGE_DIR
-cp -rp $SOURCE_DIR/Frameworks $PACKAGE_DIR
-cp -rp $SOURCE_DIR/license $PACKAGE_DIR
-
-# -- Copy individual files.
-install $SOURCE_DIR/activate $PACKAGE_DIR
-install $SOURCE_DIR/environment $PACKAGE_DIR
-install $SOURCE_DIR/README $PACKAGE_DIR
+# -- Beware of 'cp -r' because it doesn't preserve symlinks.
+rsync -a \
+    $SOURCE_DIR/ $PACKAGE_DIR
 
 # -- Sanity checks
 assert_executable $PACKAGE_DIR/bin/yosys
 assert_executable $PACKAGE_DIR/bin/nextpnr-ice40 
 assert_executable $PACKAGE_DIR/bin/nextpnr-ecp5
 assert_executable $PACKAGE_DIR/bin/nextpnr-himbaechel
+assert_executable $PACKAGE_DIR/bin/dot
+assert_executable $PACKAGE_DIR/bin/gtkwave
