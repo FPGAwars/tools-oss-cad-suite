@@ -253,6 +253,11 @@ else
 fi
 
 # --------------------------------------------------------------------------
+# -- CLEAN PACKED SUITE
+# --------------------------------------------------------------------------
+rm -f $FILENAME_SRC
+
+# --------------------------------------------------------------------------
 # -- DOWNLOAD the upstream TOOL-SYSTEM package for selected architectures.
 # --------------------------------------------------------------------------
 # -- This package provides the eeprom-ftdi executable which is used in
@@ -292,6 +297,12 @@ else
   cd tools-system
   echo "---> Extracting the TOOL-SYSTEM package"
   test -d bin || tar vzxf ../$TOOL_SYSTEM_TAR
+  
+  # --------------------------------------------------------------------------
+  # -- CLEAN PACKED TOOL-SYSTEM
+  # --------------------------------------------------------------------------
+  rm -f ../$TOOL_SYSTEM_TAR
+
 fi
 
 # -----------------------------------------------------------
