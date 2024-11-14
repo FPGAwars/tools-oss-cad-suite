@@ -51,10 +51,6 @@ SRC_URL_BASE="https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
 # -- Show the packaged version
 echo "Package version: $VERSION"
 
-# -- Version of the tool-system package
-# -- This tool is were the ftdi-eeprom program is stored
-TOOL_SYSTEM_VERSION=1.1.2
-
 # -- Target architectures
 ARCH=$1
 TARGET_ARCHS="linux_x86_64 linux_aarch64 windows_amd64 darwin darwin_arm64"
@@ -256,54 +252,6 @@ fi
 # -- CLEAN PACKED SUITE
 # --------------------------------------------------------------------------
 rm -f $FILENAME_SRC
-
-# --------------------------------------------------------------------------
-# -- DOWNLOAD the upstream TOOL-SYSTEM package for selected architectures.
-# --------------------------------------------------------------------------
-# -- This package provides the eeprom-ftdi executable which is used in
-# -- production of boards such as Alhambra II. This utility is usually not
-# -- needed by users of apio and is included in the tools-oss-cad-suite
-# -- package as convinience.
-# --
-# -- See https://github.com/FPGAwars/apio/issues/447 for more details.
-
-if [ "${ARCH}" != "linux_x86_64" ] && [ "${ARCH}" != "windows_amd64" ]; then
-  echo ""
-  echo "---> Skipping TOOL-SYSTEM package for [${ARCH}]."
-
-else
-  TOOL_SYSTEM_URL_BASE=https://github.com/FPGAwars/tools-system/releases/download/v$TOOL_SYSTEM_VERSION
-  TOOL_SYSTEM_TAR="tools-system-$ARCH-$TOOL_SYSTEM_VERSION.tar.gz"
-  TOOL_SYSTEM_URL=$TOOL_SYSTEM_URL_BASE/$TOOL_SYSTEM_TAR
-  TOOL_SYSTEM_SRC="$UPSTREAM_DIR/tools-system"
-
-  echo "---> DOWNLOADING the upstream TOOL-SYSTEM package"
-
-  echo "* Package:" 
-  echo "  $TOOL_SYSTEM_TAR"
-  echo "* URL: "
-  echo "  $TOOL_SYSTEM_URL"
-
-  # -- Download the tools-system package
-  # -- If it has already been downloaded yet
-
-  # echo "---> Download tool-system package"
-  # echo ""
-  cd "$UPSTREAM_DIR"
-  test -e $TOOL_SYSTEM_TAR || wget $TOOL_SYSTEM_URL
-
-  # -- Extract the tools-system package
-  mkdir -p tools-system
-  cd tools-system
-  echo "---> Extracting the TOOL-SYSTEM package"
-  test -d bin || tar vzxf ../$TOOL_SYSTEM_TAR
-  
-  # --------------------------------------------------------------------------
-  # -- CLEAN PACKED TOOL-SYSTEM
-  # --------------------------------------------------------------------------
-  rm -f ../$TOOL_SYSTEM_TAR
-
-fi
 
 # -----------------------------------------------------------
 # -- Create the TARGET package
