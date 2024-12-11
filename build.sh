@@ -9,6 +9,15 @@
 # brew 7-zip
 # ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
 
+# -- Set the version the generated apio package
+VERSION=0.2.1
+
+# -- The version of the upstream oss-cad-suite to use, specified
+# as a date.
+YEAR=2024
+MONTH=12
+DAY=04
+
 # For debugging, echo executed commands.
 # set -x
 
@@ -23,18 +32,6 @@ source scripts/assertions.sh
 
 # Generate tools-oss-cad-suite-arch-ver.tar.gz from the  
 # oss-cad-suite release file
-
-#-----------------------------------------------------------
-# -- INPUT parameters
-
-# -- Set the version the generated apio package
-VERSION=0.2.0
-
-# -- The version of the upstream oss-cad-suite to use, specified
-# as a date.
-YEAR=2024
-MONTH=08
-DAY=02
 
 # -- The name of the generated apio package. This typically does not
 # -- need to be cahnged.
