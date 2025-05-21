@@ -1,15 +1,17 @@
-# Packaging and Releasing the Tools-oss-cad-suite apio package
+# Packaging and Releasing the Tools-oss-cad-suite apio package.
+# The versions of the upstream oss-cad-suite packages and the
+# version of the packages release here are set in build.sh.
 
-name: Release
+name: build-and-release
 
 # Manual activation
 on: [workflow_dispatch]
 
 jobs:
 
-  # -- Building Linux_x86_64
-  # -- It creates the package tools-oss-cad-suite-linux-x86-64-20210627.tar.gz
-  build-Linux_x86_64:
+  # -- Build packages for all supported architectures and
+  # -- export them in a release.
+  build-and-release:
 
     runs-on: ubuntu-22.04
 
