@@ -9,14 +9,16 @@
 # brew 7-zip
 # ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
 
-# -- Set the version the generated apio package
-VERSION=0.2.1
+# -- Set the version the generated apio packages. This is
+# -- also used to derive the release id.
+VERSION=0.2.2
 
 # -- The version of the upstream oss-cad-suite to use, specified
-# as a date.
-YEAR=2024
-MONTH=12
-DAY=04
+# -- as a date. See list here:
+# -- https://github.com/YosysHQ/oss-cad-suite-build/releases
+YEAR=2025
+MONTH=05
+DAY=20
 
 # For debugging, echo executed commands.
 # set -x
