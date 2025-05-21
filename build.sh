@@ -9,14 +9,16 @@
 # brew 7-zip
 # ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
 
-# -- Set the version the generated apio package
-VERSION=0.2.1
+# -- Set the version the generated apio packages. This is
+# -- also used to derive the release id.
+VERSION=0.2.2
 
 # -- The version of the upstream oss-cad-suite to use, specified
-# as a date.
-YEAR=2024
-MONTH=12
-DAY=04
+# -- as a date. See list here:
+# -- https://github.com/YosysHQ/oss-cad-suite-build/releases
+YEAR=2025
+MONTH=05
+DAY=20
 
 # For debugging, echo executed commands.
 # set -x
@@ -30,7 +32,7 @@ export LC_ALL=C
 # -- Include the assertions.
 source scripts/assertions.sh
 
-# Generate tools-oss-cad-suite-arch-ver.tar.gz from the  
+# Generate tools-oss-cad-suite-arch-ver.tar.gz from the
 # oss-cad-suite release file
 
 # -- The name of the generated apio package. This typically does not
@@ -120,7 +122,7 @@ PACKAGE_DIR=$WORK_DIR/_packages/$ARCH
 # -- Template folder
 TEMPLATE="$WORK_DIR/templates/$ARCH"
 
-# -- Create the upstream directory 
+# -- Create the upstream directory
 mkdir -p "$UPSTREAM_DIR"
 
 # -- Create the packages directory
@@ -134,7 +136,7 @@ echo "* PACKAGE DIR:"
 echo "  $PACKAGE_DIR"
 echo ""
 
-# ---------------------------------------------------------------------------- 
+# ----------------------------------------------------------------------------
 # -  Create variables from the INPUT parameters
 # -
 
@@ -154,8 +156,8 @@ echo ""
 # --  if ARCH == linux_x86_64  --> ARCH_SRC = linux-x64
 # --  if ARCH == linux_aarch64 --> ARCH_SRC = linux-arm64
 # --  if ARCH == windows_amd64 --> ARCH_SRC = windows-x64
-# --  if ARCH == darwin       ---> ARCH_SRC = darwin-x64
-# --  if ARCH == darwin_arm64 ---> ARCH_SRC = darwin-arm64
+# --  if ARCH == darwin        --> ARCH_SRC = darwin-x64
+# --  if ARCH == darwin_arm64  --> ARCH_SRC = darwin-arm64
 
 
 if [ "${ARCH}" == "linux_x86_64" ]; then
@@ -184,7 +186,7 @@ if [ "${ARCH}" == "darwin_arm64" ]; then
 fi
 
 # -- Create the UPSTREAM package name
-# -- These are examples of oss-cad-suite package names for 
+# -- These are examples of oss-cad-suite package names for
 # -- the different archs
 # --
 # -- Arquitecture   package name
@@ -213,7 +215,7 @@ echo ""
 # -- Create the complete URL for downloading the upstream package
 # -- Example or URL:
 # --   https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2021-07-18/oss-cad-suite-linux-x64-20210718.tgz
-# --   
+# --
 # -- Sintax: <URL_BASE><RELEASE_DATE><FILENAME_SRC>
 # --
 RELEASE_TAG=$YEAR-$MONTH-$DAY
@@ -290,7 +292,7 @@ fi
 # --- Files to copy for the WINDOWS platforms
 if [ "$ARCH" == "windows_amd64" ]; then
 
-  source "$WORK_DIR"/scripts/install_windows_x64.sh  
+  source "$WORK_DIR"/scripts/install_windows_x64.sh
 fi
 
 # -----------------------------------------------------------
@@ -310,7 +312,13 @@ rm ${PACKAGE_JSON}.bak
 echo ""
 echo "---> Compressing the target package."
 cd $PACKAGE_DIR
-tar zcf ../$PACKAGE_NAME ./* 
+tar zcf ../$PACKAGE_NAME ./*
 
 echo ""
-echo "--> Package created: $PACKAGE_NAME"
+echo "---> Cleaning work files."
+cd $WORK_DIR
+rm -rf $UPSTREAM_DIR
+rm -rf $PACKAGE_DIR
+
+echo ""
+echo "---> Package created: $PACKAGE_NAME"
