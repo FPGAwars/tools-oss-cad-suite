@@ -315,4 +315,10 @@ cd $PACKAGE_DIR
 tar zcf ../$PACKAGE_NAME ./* 
 
 echo ""
+echo "---> Cleaning work files."
+cd $WORK_DIR
+rm -rf $UPSTREAM_DIR
+rm -rf $PACKAGE_DIR
+
+echo ""
 echo "--> Package created: $PACKAGE_NAME"
