@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #############################################
 #      oss cad suite Apio package builder   #
 #############################################
@@ -6,19 +6,19 @@
 # Mac OSX Note:
 # Install 7-zip and create for it a symling claled '7z':
 #
-# brew 7-zip
-# ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
+#   brew install 7-zip
+#   ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
 
 # -- Set the version the generated apio packages. This is
 # -- also used to derive the release id.
-VERSION=0.2.2
+VERSION=0.2.3
 
 # -- The version of the upstream oss-cad-suite to use, specified
 # -- as a date. See list here:
 # -- https://github.com/YosysHQ/oss-cad-suite-build/releases
 YEAR=2025
 MONTH=05
-DAY=20
+DAY=26
 
 # For debugging, echo executed commands.
 # set -x
