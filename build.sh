@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #############################################
 #      oss cad suite Apio package builder   #
 #############################################
@@ -6,8 +6,8 @@
 # Mac OSX Note:
 # Install 7-zip and create for it a symling claled '7z':
 #
-# brew 7-zip
-# ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
+#   brew install 7-zip
+#   ln -s /opt/homebrew/bin/7zz /opt/homebrew/bin/7z
 
 # -- Set the version the generated apio packages. This is
 # -- also used to derive the release id.
