@@ -11,7 +11,7 @@
 
 # -- Set the version the generated apio packages. This is
 # -- also used to derive the release id.
-VERSION=0.2.2
+VERSION=0.2.3
 
 # -- The version of the upstream oss-cad-suite to use, specified
 # -- as a date. See list here:
