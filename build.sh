@@ -18,7 +18,7 @@ VERSION=0.2.2
 # -- https://github.com/YosysHQ/oss-cad-suite-build/releases
 YEAR=2025
 MONTH=05
-DAY=20
+DAY=26
 
 # For debugging, echo executed commands.
 # set -x
