@@ -9,7 +9,7 @@ rsync -a \
     $SOURCE_DIR/ $PACKAGE_DIR
 
 # -- Create an alias, per https://github.com/FPGAwars/apio/issues/608
-cp $PACKAGE_DIR/lib/libusb-1.0.0.dylib cp $PACKAGE_DIR/lib/libusb-1.0.dylib
+cp $PACKAGE_DIR/lib/libusb-1.0.0.dylib $PACKAGE_DIR/lib/libusb-1.0.dylib
 
 # -- Sanity checks
 assert_executable $PACKAGE_DIR/bin/yosys
