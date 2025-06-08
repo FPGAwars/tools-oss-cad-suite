@@ -1,5 +1,4 @@
 _upstream/
 _packages/
-VERSION_BUILD
 .run.sh
 .DS_Store
