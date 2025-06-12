@@ -321,7 +321,7 @@ def main():
 
     # Write updated build info to the package
     print("Writing package build info.")
-    output_json_file = package_dir / "build-info.json"
+    output_json_file = package_dir / "BUILD-INFO.json"
     with output_json_file.open("w", encoding="utf-8") as f:
         json.dump(build_info, f, indent=2)
         f.write("\n")  # Ensure the file ends with a newline
