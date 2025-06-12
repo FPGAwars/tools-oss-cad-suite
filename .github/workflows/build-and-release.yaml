@@ -62,7 +62,7 @@ jobs:
         run: |
           cat > build-info.json <<EOF
           {
-            "name":  "oss-cad-suite",
+            "package-name":  "oss-cad-suite",
             "description" : "Yosys tools for Apio",
             "release-tag":  "$RELEASE_TAG",
             "yosys-release-tag": "$YOSYS_RELEASE_TAG",
