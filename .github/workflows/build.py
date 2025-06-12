@@ -276,7 +276,7 @@ def main():
         platform_id,
         "-",
         package_tag,
-        ".tar.gz",
+        ".tgz",
     ]
     package_filename = "".join(parts)
     print(f"\n{package_filename=}")
