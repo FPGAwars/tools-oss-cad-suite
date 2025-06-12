@@ -192,8 +192,6 @@ class PlatformInfo:
 def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
     """Extract (platform_id, platform_info)"""
 
-    # platform_id = build_info["target-platform"]
-
     # -- Maps apio platform codes to their attributes.
     PLATFORMS = {
         "darwin-arm64": PlatformInfo(
@@ -280,6 +278,9 @@ def main():
     ]
     package_filename = "".join(parts)
     print(f"\n{package_filename=}")
+
+    # Extend build info
+    build_info["target-platform"] = platform_id
     build_info["file-name"] = package_filename
 
     # -- Construct Yosys URL
@@ -325,13 +326,11 @@ def main():
     with output_json_file.open("w", encoding="utf-8") as f:
         json.dump(build_info, f, indent=2)
         f.write("\n")  # Ensure the file ends with a newline
-    run(["ls", "-al", package_dir])
     run(["cat", "-n", output_json_file])
 
     # Format the json file in the package dir
     print("Formatting package build info.")
     run(["json-align", "--in-place", "--spaces", "2", output_json_file])
-    run(["ls", "-al", package_dir])
     run(["cat", "-n", output_json_file])
 
     # -- Compress the package. We run it in the shell for '*" to expand.
