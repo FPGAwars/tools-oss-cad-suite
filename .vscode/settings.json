@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "Apio",
+        "vzxf",
+        "YOSYS"
+    ],
+    "[github-workflow]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    }
+}

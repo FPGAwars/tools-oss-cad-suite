@@ -1,0 +1,157 @@
+# Daily build and release workflow.
+
+name: build-and-release
+
+on:
+  # Run on each commit to this repo.
+  push:
+
+  # Run daily at 10AM UTC
+  schedule:
+    - cron: "0 10 * * *"
+
+  # Allow manual activations.
+  workflow_dispatch:
+
+permissions:
+  # Allow release creation
+  contents: write
+
+env:
+  # The yosys oss-cad-suite to pick up.
+  # https://github.com/YosysHQ/oss-cad-suite-build/releases
+  YOSYS_RELEASE_TAG: 2025-06-12
+
+jobs:
+  # -- Build packages for all supported architectures and
+  # -- export them in a release.
+  build-and-release:
+    runs-on: ubuntu-22.04
+
+    steps:
+      # E.g. "2025-11-02"
+      - name: Determine release tag
+        run: |
+          release_tag="$(date +'%Y-%m-%d')"
+          echo $release_tag
+          echo "RELEASE_TAG=$release_tag" >> $GITHUB_ENV
+
+      # E.g. "20251102"
+      - name: Determine package tag
+        run: |
+          package_tag="${RELEASE_TAG//-/}"
+          echo $package_tag
+          echo "PACKAGE_TAG=$package_tag" >> $GITHUB_ENV
+
+      # Required by the build script to extracting windows .exe.
+      - name: Install p7zip (7z command)
+        run: |
+          sudo apt-get update && sudo apt-get install -y p7zip-full
+
+      # Check out the this repo in the workflow work directory.
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Determine last commit
+        run: |
+          commit=$(git rev-parse HEAD)
+          echo $commit
+          echo "RELEASE_COMMIT=$commit" >> $GITHUB_ENV
+
+      - name: Create the build-info.json file
+        run: |
+          cat > build-info.json <<EOF
+          {
+            "package-name":  "oss-cad-suite",
+            "description" : "Yosys tools for Apio",
+            "release-tag":  "$RELEASE_TAG",
+            "yosys-release-tag": "$YOSYS_RELEASE_TAG",
+            "build-repo":  "${{github.repository}}",
+            "build-workflow":  "${{ github.workflow }}",
+            "workflow-run-id":  "${{github.run_id}}",
+            "workflow-run-number": "${{github.run_number}}",
+            "build-time":  "$(date +'%Y-%m-%d %H:%M:%S %Z')",
+            "commit":  "$RELEASE_COMMIT"
+          }
+          EOF
+
+          cat -n build-info.json
+
+      # This tool is used also by build.py
+      - name: Format build info
+        run: |
+          npm install -g json-align
+          json-align --in-place --spaces 2 build-info.json
+          cat -n build-info.json
+
+      - name: Make the build info file read only
+        run: |
+          chmod 444 build-info.json
+
+      - name: Build package [darwin-arm64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id darwin-arm64 \
+              --build-info-json build-info.json
+
+      - name: Build package [darwin-x86-64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id darwin-x86-64 \
+              --build-info-json build-info.json
+
+      - name: Build package [linux-x86-64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id linux-x86-64 \
+              --build-info-json build-info.json
+
+      - name: Build package [linux-aarch64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id linux-aarch64 \
+              --build-info-json build-info.json
+
+      - name: Build package [windows-amd64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id windows-amd64 \
+              --build-info-json build-info.json
+
+      - name: List packages
+        run: |
+          ls -al _packages/*
+
+      - name: Prepare release text
+        run: |
+          cat  > RELEASE_BODY.txt <<EOF
+          This is an automated build-and-release.
+
+          Build info:
+          \`\`\`
+          $(tr -d '",{}' < build-info.json)
+          \`\`\`
+          EOF
+
+          cat -n $out
+
+      # In case we overwrite and exiting release.
+      - name: Force tag update
+        run: |
+          git tag -f ${{env.RELEASE_TAG}}
+          git push origin -f ${{env.RELEASE_TAG}}
+
+      - name: Create the Release and upload files
+        uses: softprops/action-gh-release@v2.2.2
+        with:
+          tag_name: ${{env.RELEASE_TAG}}
+          name: ${{env.RELEASE_TAG}}
+          body_path: RELEASE_BODY.txt
+          preserve_order: true
+          fail_on_unmatched_files: true
+          files: |
+            _packages/apio-oss-cad-suite-darwin-arm64-${{env.PACKAGE_TAG}}.tgz
+            _packages/apio-oss-cad-suite-darwin-x86-64-${{env.PACKAGE_TAG}}.tgz
+            _packages/apio-oss-cad-suite-linux-x86-64-${{env.PACKAGE_TAG}}.tgz
+            _packages/apio-oss-cad-suite-linux-aarch64-${{env.PACKAGE_TAG}}.tgz
+            _packages/apio-oss-cad-suite-windows-amd64-${{env.PACKAGE_TAG}}.tgz
