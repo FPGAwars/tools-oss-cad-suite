@@ -53,7 +53,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y clamav clamav-daemon
-          sudo freshclam
+          sudo systemctl stop clamav-freshclam || true
+          sudo freshclam --verbose
 
       # Check out the this repo in the workflow work directory.
       - name: Checkout this repo
