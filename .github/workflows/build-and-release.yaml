@@ -143,10 +143,10 @@ jobs:
           cat -n $out
 
       # In case we overwrite and exiting release.
-      - name: Force tag update
-        run: |
-          git tag -f ${{env.RELEASE_TAG}}
-          git push origin -f ${{env.RELEASE_TAG}}
+      # - name: Force tag update
+      #   run: |
+      #     git tag -f ${{env.RELEASE_TAG}}
+      #     git push origin -f ${{env.RELEASE_TAG}}
 
       # Scans recursively inside the .tgz packages.
       - name: Scan the packages for viruses
