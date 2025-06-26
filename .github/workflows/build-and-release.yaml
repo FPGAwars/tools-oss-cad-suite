@@ -48,6 +48,13 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y p7zip-full
 
+      - name: Install anti virus (ClamAV)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clamav clamav-daemon
+          sudo systemctl stop clamav-freshclam || true
+          sudo freshclam --verbose
+
       # Check out the this repo in the workflow work directory.
       - name: Checkout this repo
         uses: actions/checkout@v4
@@ -135,11 +142,18 @@ jobs:
 
           cat -n $out
 
+      # Commented out. This requires a stronger token to work.
       # In case we overwrite and exiting release.
-      - name: Force tag update
+      # - name: Force tag update
+      #   run: |
+      #     git tag -f ${{env.RELEASE_TAG}}
+      #     git push origin -f ${{env.RELEASE_TAG}}
+
+      # Scans recursively inside the .tgz packages.
+      # See https://linux.die.net/man/1/clamscan
+      - name: Scan the packages for viruses
         run: |
-          git tag -f ${{env.RELEASE_TAG}}
-          git push origin -f ${{env.RELEASE_TAG}}
+          clamscan -r --verbose --scan-archive=yes _packages/apio-oss-cad-suite-*.tgz
 
       - name: Create the Release and upload files
         uses: softprops/action-gh-release@v2.2.2

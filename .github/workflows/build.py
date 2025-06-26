@@ -340,11 +340,12 @@ def main():
 
     # -- Delete the package dir (large)
     print(f"\nDeleting package dir {package_dir}")
+    os.chdir(work_dir)
     shutil.rmtree(package_dir)
 
     # -- Final check, at the repo root which is common
     # -- to all the platforms.
-    os.chdir(work_dir)  #
+    os.chdir(work_dir)
     print(f"\n{Path.cwd()=}")
     run(["ls", "-al"])
     run(["ls", "-al", "_packages"])
