@@ -142,6 +142,7 @@ jobs:
 
           cat -n $out
 
+      # Commented out. This requires a stronger token to work.
       # In case we overwrite and exiting release.
       # - name: Force tag update
       #   run: |
@@ -151,7 +152,7 @@ jobs:
       # Scans recursively inside the .tgz packages.
       - name: Scan the packages for viruses
         run: |
-          clamscan -r _packages/apio-oss-cad-suite-*.tgz
+          clamscan -r --verbose --scan-archive=yes _packages/apio-oss-cad-suite-*.tgz
 
       - name: Create the Release and upload files
         uses: softprops/action-gh-release@v2.2.2
