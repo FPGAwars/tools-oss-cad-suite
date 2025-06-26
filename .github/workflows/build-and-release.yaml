@@ -144,10 +144,10 @@ jobs:
 
       # Commented out. This requires a stronger token to work.
       # In case we overwrite and exiting release.
-      # - name: Force tag update
-      #   run: |
-      #     git tag -f ${{env.RELEASE_TAG}}
-      #     git push origin -f ${{env.RELEASE_TAG}}
+      - name: Force tag update
+        run: |
+          git tag -f ${{env.RELEASE_TAG}}
+          git push origin -f ${{env.RELEASE_TAG}}
 
       # Scans recursively inside the .tgz packages.
       # See https://linux.die.net/man/1/clamscan
