@@ -150,6 +150,7 @@ jobs:
       #     git push origin -f ${{env.RELEASE_TAG}}
 
       # Scans recursively inside the .tgz packages.
+      # See https://linux.die.net/man/1/clamscan
       - name: Scan the packages for viruses
         run: |
           clamscan -r --verbose --scan-archive=yes _packages/apio-oss-cad-suite-*.tgz
