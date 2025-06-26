@@ -148,14 +148,10 @@ jobs:
           git tag -f ${{env.RELEASE_TAG}}
           git push origin -f ${{env.RELEASE_TAG}}
 
+      # Scans recursively inside the .tgz packages.
       - name: Scan the packages for viruses
         run: |
-          clamscan \
-            _packages/apio-oss-cad-suite-darwin-arm64-${{env.PACKAGE_TAG}}.tgz  \
-            _packages/apio-oss-cad-suite-darwin-x86-64-${{env.PACKAGE_TAG}}.tgz \
-            _packages/apio-oss-cad-suite-linux-x86-64-${{env.PACKAGE_TAG}}.tgz  \
-            _packages/apio-oss-cad-suite-linux-aarch64-${{env.PACKAGE_TAG}}.tgz \
-            _packages/apio-oss-cad-suite-windows-amd64-${{env.PACKAGE_TAG}}.tgz
+          clamscan -r _packages/apio-oss-cad-suite-*.tgz
 
       - name: Create the Release and upload files
         uses: softprops/action-gh-release@v2.2.2
