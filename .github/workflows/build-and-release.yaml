@@ -48,6 +48,13 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y p7zip-full
 
+      # This scanner is used by the build.py script.
+      - name: Install anti virus (ClamAV)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clamav clamav-daemon
+          sudo freshclam
+
       # Check out the this repo in the workflow work directory.
       - name: Checkout this repo
         uses: actions/checkout@v4
