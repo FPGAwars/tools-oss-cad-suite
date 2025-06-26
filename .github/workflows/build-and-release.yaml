@@ -48,7 +48,6 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y p7zip-full
 
-      # This scanner is used by the build.py script.
       - name: Install anti virus (ClamAV)
         run: |
           sudo apt-get update
@@ -148,6 +147,15 @@ jobs:
         run: |
           git tag -f ${{env.RELEASE_TAG}}
           git push origin -f ${{env.RELEASE_TAG}}
+
+      - name: Scan the packages for viruses
+        run: |
+          clamscan \
+            _packages/apio-oss-cad-suite-darwin-arm64-${{env.PACKAGE_TAG}}.tgz  \
+            _packages/apio-oss-cad-suite-darwin-x86-64-${{env.PACKAGE_TAG}}.tgz \
+            _packages/apio-oss-cad-suite-linux-x86-64-${{env.PACKAGE_TAG}}.tgz  \
+            _packages/apio-oss-cad-suite-linux-aarch64-${{env.PACKAGE_TAG}}.tgz \
+            _packages/apio-oss-cad-suite-windows-amd64-${{env.PACKAGE_TAG}}.tgz
 
       - name: Create the Release and upload files
         uses: softprops/action-gh-release@v2.2.2
