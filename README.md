@@ -1,5 +1,8 @@
 [![](https://github.com/FPGAwars/tools-oss-cad-suite/raw/main/wiki/Logos/Apio-tool-oss-cad-suite-github.png)](https://github.com/FPGAwars/tools-oss-cad-suite/wiki)
 
+> **Note:** Please **do not** open issues in this repository.
+> For any questions, discussions, or bug reports, use the [main Apio repository](https://github.com/FPGAwars/apio).
+
 # Tools-oss-cad-suite
 
 Apio package with selected binaries from the [YosysHQ/oss-cad-suite project](https://github.com/YosysHQ/oss-cad-suite-build)
