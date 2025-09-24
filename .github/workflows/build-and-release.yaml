@@ -18,9 +18,9 @@ permissions:
   contents: write
 
 env:
-  # The yosys oss-cad-suite to pick up.
+  # The yosys oss-cad-suite to pick up. yyyy-mm-dd.
   # https://github.com/YosysHQ/oss-cad-suite-build/releases
-  YOSYS_RELEASE_TAG: 2025-07-07
+  YOSYS_RELEASE_TAG: 2025-09-23
 
 jobs:
   # -- Build packages for all supported architectures and
