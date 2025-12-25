@@ -127,7 +127,7 @@ jobs:
 
       - name: Prepare release text
         run: |
-          cat  > RELEASE_BODY.txt <<EOF
+          cat  > RELEASE-BODY.txt <<EOF
           This is an automated build-and-release.
 
           Build info:
@@ -136,7 +136,7 @@ jobs:
           \`\`\`
           EOF
 
-          cat -n RELEASE_BODY.txt
+          cat -n RELEASE-BODY.txt
 
       - name: Cleanup old pre-releases
         uses: fpgawars/apio-workflows/.github/actions/cleanup-old-prereleases@main
