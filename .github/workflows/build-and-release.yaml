@@ -45,11 +45,17 @@ jobs:
       - name: Checkout this repo
         uses: actions/checkout@v4
 
+      # - name: Get repository commit
+      #   uses: fpgawars/apio-workflows/.github/actions/get-repo-commit@main
+      #   with:
+      #     repo-dir: .
+      #     env-var-name: RELEASE_COMMIT
+
       - name: Get repository commit
-        uses: fpgawars/apio-workflows/.github/actions/get-repo-commit@main
+        uses: fpgawars/apio-workflows/.github/actions/get-repo-info@main
         with:
           repo-dir: .
-          env-var-name: RELEASE_COMMIT
+          commit-var: RELEASE_COMMIT
 
       - name: Create the build-info.json file
         run: |
