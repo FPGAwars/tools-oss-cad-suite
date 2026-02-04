@@ -17,12 +17,9 @@ permissions:
 
 env:
   # The yosys oss-cad-suite to pick up. yyyy-mm-dd.
-  # https://github.com/YosysHQ/oss-cad-suite-build/releases
+  # See https://github.com/YosysHQ/oss-cad-suite-build/releases
   #
-  # NOTE: 2025-10-08 is is the last yosys release that doesn't break
-  # 'apio lint' for ECP5. See https://github.com/FPGAwars/apio/issues/825
-  # for details.
-  YOSYS_RELEASE_TAG: 2025-10-08
+  YOSYS_RELEASE_TAG: 2026-02-02
 
   # These are set later
   RELEASE_TAG: ""
