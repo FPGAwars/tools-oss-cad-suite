@@ -19,7 +19,7 @@ env:
   # The yosys oss-cad-suite to pick up. yyyy-mm-dd.
   # See https://github.com/YosysHQ/oss-cad-suite-build/releases
   #
-  YOSYS_RELEASE_TAG: 2026-03-11
+  YOSYS_RELEASE_TAG: 2026-03-20
 
   # These are set later
   RELEASE_TAG: ""
