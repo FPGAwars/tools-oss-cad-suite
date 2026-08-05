@@ -89,29 +89,6 @@ def darwin_arm64_packager(yosys_dir: Path, package_dir: Path) -> None:
     assert (package_dir / "lib/libusb-1.0.0.dylib").is_file()
 
 
-def darwin_x86_64_packager(yosys_dir: Path, package_dir: Path) -> None:
-    """Copy the files from yosys dir to our package dir."""
-
-    # -- Copy files.
-    rsync_yosys_package(yosys_dir, package_dir)
-
-    # -- Check that a few binaries exists and are executable..
-    check_package_executables(
-        package_dir,
-        [
-            "bin/yosys",
-            "bin/nextpnr-ice40",
-            "bin/nextpnr-ecp5",
-            "bin/nextpnr-himbaechel",
-            "bin/dot",
-            "bin/gtkwave",
-        ],
-    )
-
-    # Check that the libusb backend exists. We use it to list USB devices.
-    assert (package_dir / "lib/libusb-1.0.0.dylib").is_file()
-
-
 def linux_x86_64_packager(yosys_dir: Path, package_dir: Path) -> None:
     """Copy the files from yosys dir to our package dir."""
 
@@ -133,26 +110,6 @@ def linux_x86_64_packager(yosys_dir: Path, package_dir: Path) -> None:
 
     # Check that the libusb backend exists. We use it to list USB devices.
     assert (package_dir / "lib/libusb-1.0.so.0").is_file()
-
-
-def linux_aarch64_packager(yosys_dir: Path, package_dir: Path) -> None:
-    """Copy the files from yosys dir to our package dir."""
-
-    # -- Copy files.
-    rsync_yosys_package(yosys_dir, package_dir)
-
-    # -- Check that a few binaries exists and are executable..
-    check_package_executables(
-        package_dir,
-        [
-            "bin/yosys",
-            "bin/nextpnr-ice40",
-            "bin/nextpnr-ecp5",
-            "bin/nextpnr-himbaechel",
-            "bin/dot",
-            "bin/gtkwave",
-        ],
-    )
 
     # Check that the libusb backend exists. We use it to list USB devices.
     assert (package_dir / "lib/libusb-1.0.so.0").is_file()
@@ -199,20 +156,10 @@ def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
             ["tar", "zxf"],
             darwin_arm64_packager,
         ),
-        "darwin-x86-64": PlatformInfo(
-            f"oss-cad-suite-darwin-x64-{yosys_package_tag}.tgz",
-            ["tar", "zxf"],
-            darwin_x86_64_packager,
-        ),
         "linux-x86-64": PlatformInfo(
             f"oss-cad-suite-linux-x64-{yosys_package_tag}.tgz",
             ["tar", "zxf"],
             linux_x86_64_packager,
-        ),
-        "linux-aarch64": PlatformInfo(
-            f"oss-cad-suite-linux-arm64-{yosys_package_tag}.tgz",
-            ["tar", "zxf"],
-            linux_aarch64_packager,
         ),
         "windows-amd64": PlatformInfo(
             f"oss-cad-suite-windows-x64-{yosys_package_tag}.exe",

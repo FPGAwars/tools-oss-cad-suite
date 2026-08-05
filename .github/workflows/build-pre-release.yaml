@@ -92,22 +92,10 @@ jobs:
               --platform_id darwin-arm64 \
               --build-info-json build-info.json
 
-      - name: Build package [darwin-x86-64]
-        run: |
-          python .github/workflows/build.py \
-              --platform_id darwin-x86-64 \
-              --build-info-json build-info.json
-
       - name: Build package [linux-x86-64]
         run: |
           python .github/workflows/build.py \
               --platform_id linux-x86-64 \
-              --build-info-json build-info.json
-
-      - name: Build package [linux-aarch64]
-        run: |
-          python .github/workflows/build.py \
-              --platform_id linux-aarch64 \
               --build-info-json build-info.json
 
       - name: Build package [windows-amd64]
@@ -198,7 +186,5 @@ jobs:
           # We intensionally list explicitly all the expected files.
           files: |
             _packages/apio-oss-cad-suite-darwin-arm64-${{env.PACKAGE_TAG}}.tgz
-            _packages/apio-oss-cad-suite-darwin-x86-64-${{env.PACKAGE_TAG}}.tgz
             _packages/apio-oss-cad-suite-linux-x86-64-${{env.PACKAGE_TAG}}.tgz
-            _packages/apio-oss-cad-suite-linux-aarch64-${{env.PACKAGE_TAG}}.tgz
             _packages/apio-oss-cad-suite-windows-amd64-${{env.PACKAGE_TAG}}.tgz
