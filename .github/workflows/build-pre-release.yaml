@@ -82,16 +82,20 @@ jobs:
         run: |
           chmod 444 build-info.json
 
-      - name: Build package [darwin-arm64]
-        run: |
-          python .github/workflows/build.py \
-              --platform_id darwin-arm64 \
-              --build-info-json build-info.json
-
+      # Linux goes first: it generates the *-PARTS-INDEX.json documents from its
+      # own tree (its interpreter is the only one that runs on this runner) and
+      # the other platforms copy them after checking their databases are
+      # identical. See attach_parts_indexes() in build.py.
       - name: Build package [linux-x86-64]
         run: |
           python .github/workflows/build.py \
               --platform_id linux-x86-64 \
+              --build-info-json build-info.json
+
+      - name: Build package [darwin-arm64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id darwin-arm64 \
               --build-info-json build-info.json
 
       - name: Build package [windows-amd64]

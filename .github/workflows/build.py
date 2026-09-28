@@ -14,7 +14,10 @@ from dataclasses import dataclass
 from typing import List, Callable, Union, Dict, Tuple
 import argparse
 import shutil
+import tarfile
 from pathlib import Path
+
+import parts_indexes
 
 # -- Command line options.
 parser = argparse.ArgumentParser()
@@ -171,6 +174,75 @@ def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
     return PLATFORMS[platform_id]
 
 
+# -- The platform whose tree the parts indexes are generated from, and the
+# -- staging dir (under _packages/) where they wait for the other platforms.
+PARTS_INDEXES_PLATFORM = "linux-x86-64"
+PARTS_INDEXES_STAGING = "parts-indexes"
+DB_HASHES_FILE = "database-hashes.json"
+
+
+def attach_parts_indexes(
+    platform_id: str, package_dir: Path, work_dir: Path, build_info: Dict
+) -> None:
+    """Puts the four <ARCH>-PARTS-INDEX.json documents at the root of the
+    package.
+
+    The documents are generated once, from the linux tree (the only one whose
+    interpreter can run on the ubuntu runner, so the workflow builds linux
+    first), and copied to every platform. That is only sound if the databases
+    they are generated from are identical on all platforms, which is checked
+    here for each of them (the files are hashed, see
+    parts_indexes.database_hashes)."""
+
+    staging = work_dir / "_packages" / PARTS_INDEXES_STAGING
+    hashes = parts_indexes.database_hashes(package_dir)
+    assert hashes, f"No databases found in {package_dir}"
+
+    if platform_id == PARTS_INDEXES_PLATFORM:
+        print("\nGenerating the parts indexes.")
+        docs, warnings = parts_indexes.generate(package_dir, build_info)
+        parts_indexes.check_no_collisions(docs)
+        for warning in warnings:
+            print(f"WARNING: {warning}")
+        shutil.rmtree(staging, ignore_errors=True)
+        parts_indexes.write_documents(docs, staging)
+        with (staging / DB_HASHES_FILE).open("w", encoding="utf-8") as f:
+            json.dump(hashes, f, indent=2, sort_keys=True)
+            f.write("\n")
+    else:
+        assert (staging / DB_HASHES_FILE).is_file(), (
+            f"The parts indexes are generated when the {PARTS_INDEXES_PLATFORM} "
+            "package is built, which must come first in the workflow."
+        )
+        with (staging / DB_HASHES_FILE).open("r", encoding="utf-8") as f:
+            reference = json.load(f)
+        different = sorted(
+            key
+            for key in reference.keys() | hashes.keys()
+            if reference.get(key) != hashes.get(key)
+        )
+        assert not different, (
+            f"The databases of {platform_id} differ from those of "
+            f"{PARTS_INDEXES_PLATFORM}: {different}"
+        )
+
+    for arch in parts_indexes.ARCHS:
+        name = f"{arch.upper()}-PARTS-INDEX.json"
+        assert (staging / name).is_file(), staging / name
+        shutil.copy2(staging / name, package_dir / name)
+        print(f"Added {name} to the package.")
+
+
+def check_package_has_parts_indexes(package_file: Path) -> None:
+    """Checks that the compressed package carries the four documents at its
+    root."""
+    expected = {f"./{arch.upper()}-PARTS-INDEX.json" for arch in parts_indexes.ARCHS}
+    with tarfile.open(package_file, "r:gz") as tar:
+        names = {info.name for info in tar}
+    missing = expected - names
+    assert not missing, f"{package_file} lacks {sorted(missing)}"
+
+
 def main():
     """Builds the Apio oss-cad-suite package for one platform."""
 
@@ -267,6 +339,9 @@ def main():
     print(f"  Dest dir:   {package_dir}")
     platform_info.packager_function(upstream_dir / "oss-cad-suite", package_dir)
 
+    # -- Add the parts indexes (same documents on every platform).
+    attach_parts_indexes(platform_id, package_dir, work_dir, build_info)
+
     # Write updated build info to the package
     print("Writing package build info.")
     output_json_file = package_dir / "BUILD-INFO.json"
@@ -284,6 +359,7 @@ def main():
     print("Compressing the  package.")
     os.chdir(package_dir)
     run(f"tar zcf ../{package_filename} ./*", shell=True)
+    check_package_has_parts_indexes(package_dir.parent / package_filename)
 
     # -- Delete the package dir (large)
     print(f"\nDeleting package dir {package_dir}")
