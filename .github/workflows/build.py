@@ -15,6 +15,8 @@ from typing import List, Callable, Union, Dict, Tuple
 import argparse
 import shutil
 import tarfile
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 import parts_indexes
@@ -149,6 +151,38 @@ class PlatformInfo:
     packager_function: Callable[[Path, Path], None]
 
 
+YOSYS_RELEASES_URL = "https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
+
+
+def url_exists(url: str) -> bool:
+    """True if a HEAD request to the url succeeds, False on a 404. Any other
+    failure is raised, so a network problem is not mistaken for a missing
+    asset."""
+    request = urllib.request.Request(url, method="HEAD")
+    try:
+        with urllib.request.urlopen(request, timeout=60):
+            return True
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            return False
+        raise
+
+
+def get_windows_platform_info(yosys_package_tag: str) -> PlatformInfo:
+    """YosysHQ published the windows suite as a self-extracting .exe (opened
+    with 7z) up to release 2026-03-24 and as a .tgz from 2026-09-27 on. Instead
+    of hardcoding a cutoff date, ask the release which one it carries: the .tgz
+    if it exists, otherwise the .exe."""
+    t = yosys_package_tag
+    release_tag = f"{t[:4]}-{t[4:6]}-{t[6:]}"
+    base = f"oss-cad-suite-windows-x64-{yosys_package_tag}"
+    if url_exists(f"{YOSYS_RELEASES_URL}/{release_tag}/{base}.tgz"):
+        print(f"Windows asset of {release_tag}: {base}.tgz (tar)")
+        return PlatformInfo(f"{base}.tgz", ["tar", "zxf"], windows_amd64_packager)
+    print(f"Windows asset of {release_tag}: {base}.exe (7z)")
+    return PlatformInfo(f"{base}.exe", ["7z", "x"], windows_amd64_packager)
+
+
 def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
     """Extract (platform_id, platform_info)"""
 
@@ -164,12 +198,12 @@ def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
             ["tar", "zxf"],
             linux_x86_64_packager,
         ),
-        "windows-amd64": PlatformInfo(
-            f"oss-cad-suite-windows-x64-{yosys_package_tag}.exe",
-            ["7z", "x"],
-            windows_amd64_packager,
-        ),
     }
+
+    # -- The windows asset depends on the release, so it is resolved (with a
+    # -- request) only when building windows.
+    if platform_id == "windows-amd64":
+        return get_windows_platform_info(yosys_package_tag)
 
     return PLATFORMS[platform_id]
 
@@ -304,7 +338,7 @@ def main():
 
     # -- Construct Yosys URL
     parts = [
-        "https://github.com/YosysHQ/oss-cad-suite-build/releases/download",
+        YOSYS_RELEASES_URL,
         "/",
         yosys_release_tag,
         "/",
