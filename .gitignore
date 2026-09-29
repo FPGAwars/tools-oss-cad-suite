@@ -2,4 +2,3 @@ _upstream/
 _packages/
 .run.sh
 .DS_Store
-__pycache__/

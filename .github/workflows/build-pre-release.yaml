@@ -38,11 +38,6 @@ jobs:
           release-tag-var: RELEASE_TAG
           package-tag-var: PACKAGE_TAG
 
-      # Required by the build script to extracting windows .exe.
-      - name: Install p7zip (7z command)
-        run: |
-          sudo apt-get update && sudo apt-get install -y p7zip-full
-
       - name: Checkout this repo
         uses: actions/checkout@v4
 
@@ -82,20 +77,25 @@ jobs:
         run: |
           chmod 444 build-info.json
 
-      # Linux goes first: it generates the *-PARTS-INDEX.json documents from its
-      # own tree (its interpreter is the only one that runs on this runner) and
-      # the other platforms copy them after checking their databases are
-      # identical. See attach_parts_indexes() in build.py.
-      - name: Build package [linux-x86-64]
+      # The parts indexes do not depend on the platform: generated once, from
+      # the linux suite, and copied into the three packages by build.py.
+      - name: Generate the parts indexes
         run: |
-          python .github/workflows/build.py \
-              --platform_id linux-x86-64 \
-              --build-info-json build-info.json
+          python .github/workflows/parts_indexes.py \
+              --yosys-release-tag "$YOSYS_RELEASE_TAG" \
+              --release-tag "$RELEASE_TAG" \
+              --out _packages/parts-indexes
 
       - name: Build package [darwin-arm64]
         run: |
           python .github/workflows/build.py \
               --platform_id darwin-arm64 \
+              --build-info-json build-info.json
+
+      - name: Build package [linux-x86-64]
+        run: |
+          python .github/workflows/build.py \
+              --platform_id linux-x86-64 \
               --build-info-json build-info.json
 
       - name: Build package [windows-amd64]

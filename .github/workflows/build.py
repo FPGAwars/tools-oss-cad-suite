@@ -3,9 +3,6 @@
 # This script is called from the github build workflow and and runs
 # in the top dir of this repo. it uses ./_upstream and ./_packages
 # directories for input and output files respectively.
-#
-# To install 7z on mac:
-#   brew install p7zip
 
 import os
 import json
@@ -14,12 +11,7 @@ from dataclasses import dataclass
 from typing import List, Callable, Union, Dict, Tuple
 import argparse
 import shutil
-import tarfile
-import urllib.error
-import urllib.request
 from pathlib import Path
-
-import parts_indexes
 
 # -- Command line options.
 parser = argparse.ArgumentParser()
@@ -151,38 +143,6 @@ class PlatformInfo:
     packager_function: Callable[[Path, Path], None]
 
 
-YOSYS_RELEASES_URL = "https://github.com/YosysHQ/oss-cad-suite-build/releases/download"
-
-
-def url_exists(url: str) -> bool:
-    """True if a HEAD request to the url succeeds, False on a 404. Any other
-    failure is raised, so a network problem is not mistaken for a missing
-    asset."""
-    request = urllib.request.Request(url, method="HEAD")
-    try:
-        with urllib.request.urlopen(request, timeout=60):
-            return True
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            return False
-        raise
-
-
-def get_windows_platform_info(yosys_package_tag: str) -> PlatformInfo:
-    """YosysHQ published the windows suite as a self-extracting .exe (opened
-    with 7z) up to release 2026-03-24 and as a .tgz from 2026-09-27 on. Instead
-    of hardcoding a cutoff date, ask the release which one it carries: the .tgz
-    if it exists, otherwise the .exe."""
-    t = yosys_package_tag
-    release_tag = f"{t[:4]}-{t[4:6]}-{t[6:]}"
-    base = f"oss-cad-suite-windows-x64-{yosys_package_tag}"
-    if url_exists(f"{YOSYS_RELEASES_URL}/{release_tag}/{base}.tgz"):
-        print(f"Windows asset of {release_tag}: {base}.tgz (tar)")
-        return PlatformInfo(f"{base}.tgz", ["tar", "zxf"], windows_amd64_packager)
-    print(f"Windows asset of {release_tag}: {base}.exe (7z)")
-    return PlatformInfo(f"{base}.exe", ["7z", "x"], windows_amd64_packager)
-
-
 def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
     """Extract (platform_id, platform_info)"""
 
@@ -198,83 +158,14 @@ def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
             ["tar", "zxf"],
             linux_x86_64_packager,
         ),
+        "windows-amd64": PlatformInfo(
+            f"oss-cad-suite-windows-x64-{yosys_package_tag}.tgz",
+            ["tar", "zxf"],
+            windows_amd64_packager,
+        ),
     }
 
-    # -- The windows asset depends on the release, so it is resolved (with a
-    # -- request) only when building windows.
-    if platform_id == "windows-amd64":
-        return get_windows_platform_info(yosys_package_tag)
-
     return PLATFORMS[platform_id]
-
-
-# -- The platform whose tree the parts indexes are generated from, and the
-# -- staging dir (under _packages/) where they wait for the other platforms.
-PARTS_INDEXES_PLATFORM = "linux-x86-64"
-PARTS_INDEXES_STAGING = "parts-indexes"
-DB_HASHES_FILE = "database-hashes.json"
-
-
-def attach_parts_indexes(
-    platform_id: str, package_dir: Path, work_dir: Path, build_info: Dict
-) -> None:
-    """Puts the four <ARCH>-PARTS-INDEX.json documents at the root of the
-    package.
-
-    The documents are generated once, from the linux tree (the only one whose
-    interpreter can run on the ubuntu runner, so the workflow builds linux
-    first), and copied to every platform. That is only sound if the databases
-    they are generated from are identical on all platforms, which is checked
-    here for each of them (the files are hashed, see
-    parts_indexes.database_hashes)."""
-
-    staging = work_dir / "_packages" / PARTS_INDEXES_STAGING
-    hashes = parts_indexes.database_hashes(package_dir)
-    assert hashes, f"No databases found in {package_dir}"
-
-    if platform_id == PARTS_INDEXES_PLATFORM:
-        print("\nGenerating the parts indexes.")
-        docs, warnings = parts_indexes.generate(package_dir, build_info)
-        parts_indexes.check_no_collisions(docs)
-        for warning in warnings:
-            print(f"WARNING: {warning}")
-        shutil.rmtree(staging, ignore_errors=True)
-        parts_indexes.write_documents(docs, staging)
-        with (staging / DB_HASHES_FILE).open("w", encoding="utf-8") as f:
-            json.dump(hashes, f, indent=2, sort_keys=True)
-            f.write("\n")
-    else:
-        assert (staging / DB_HASHES_FILE).is_file(), (
-            f"The parts indexes are generated when the {PARTS_INDEXES_PLATFORM} "
-            "package is built, which must come first in the workflow."
-        )
-        with (staging / DB_HASHES_FILE).open("r", encoding="utf-8") as f:
-            reference = json.load(f)
-        different = sorted(
-            key
-            for key in reference.keys() | hashes.keys()
-            if reference.get(key) != hashes.get(key)
-        )
-        assert not different, (
-            f"The databases of {platform_id} differ from those of "
-            f"{PARTS_INDEXES_PLATFORM}: {different}"
-        )
-
-    for arch in parts_indexes.ARCHS:
-        name = f"{arch.upper()}-PARTS-INDEX.json"
-        assert (staging / name).is_file(), staging / name
-        shutil.copy2(staging / name, package_dir / name)
-        print(f"Added {name} to the package.")
-
-
-def check_package_has_parts_indexes(package_file: Path) -> None:
-    """Checks that the compressed package carries the four documents at its
-    root."""
-    expected = {f"./{arch.upper()}-PARTS-INDEX.json" for arch in parts_indexes.ARCHS}
-    with tarfile.open(package_file, "r:gz") as tar:
-        names = {info.name for info in tar}
-    missing = expected - names
-    assert not missing, f"{package_file} lacks {sorted(missing)}"
 
 
 def main():
@@ -301,6 +192,13 @@ def main():
     yosys_release_tag = build_info["yosys-release-tag"]
     yosys_package_tag = yosys_release_tag.replace("-", "")
     platform_info = get_platform_info(platform_id, yosys_package_tag)
+
+    # -- The parts indexes, generated by parts_indexes.py before this script.
+    json_files = sorted((work_dir / "_packages/parts-indexes").glob("*.json"))
+    assert len(json_files) == 4, (
+        f"Expected the 4 parts indexes in _packages/parts-indexes, found "
+        f"{len(json_files)}. Run parts_indexes.py first (see build-pre-release.yaml)."
+    )
 
     print()
     print(f"* {platform_id=}")
@@ -338,7 +236,7 @@ def main():
 
     # -- Construct Yosys URL
     parts = [
-        YOSYS_RELEASES_URL,
+        "https://github.com/YosysHQ/oss-cad-suite-build/releases/download",
         "/",
         yosys_release_tag,
         "/",
@@ -373,8 +271,10 @@ def main():
     print(f"  Dest dir:   {package_dir}")
     platform_info.packager_function(upstream_dir / "oss-cad-suite", package_dir)
 
-    # -- Add the parts indexes (same documents on every platform).
-    attach_parts_indexes(platform_id, package_dir, work_dir, build_info)
+    # -- Copy the parts indexes to the package.
+    for json_file in json_files:
+        print(f"Adding {json_file.name}")
+        shutil.copy2(json_file, package_dir)
 
     # Write updated build info to the package
     print("Writing package build info.")
@@ -393,7 +293,6 @@ def main():
     print("Compressing the  package.")
     os.chdir(package_dir)
     run(f"tar zcf ../{package_filename} ./*", shell=True)
-    check_package_has_parts_indexes(package_dir.parent / package_filename)
 
     # -- Delete the package dir (large)
     print(f"\nDeleting package dir {package_dir}")
