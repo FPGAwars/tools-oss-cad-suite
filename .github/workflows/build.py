@@ -3,9 +3,6 @@
 # This script is called from the github build workflow and and runs
 # in the top dir of this repo. it uses ./_upstream and ./_packages
 # directories for input and output files respectively.
-#
-# To install 7z on mac:
-#   brew install p7zip
 
 import os
 import json
@@ -162,8 +159,8 @@ def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
             linux_x86_64_packager,
         ),
         "windows-amd64": PlatformInfo(
-            f"oss-cad-suite-windows-x64-{yosys_package_tag}.exe",
-            ["7z", "x"],
+            f"oss-cad-suite-windows-x64-{yosys_package_tag}.tgz",
+            ["tar", "zxf"],
             windows_amd64_packager,
         ),
     }
