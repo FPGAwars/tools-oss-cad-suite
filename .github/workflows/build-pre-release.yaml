@@ -19,7 +19,8 @@ env:
   # The yosys oss-cad-suite to pick up. yyyy-mm-dd.
   # See https://github.com/YosysHQ/oss-cad-suite-build/releases
   #
-  YOSYS_RELEASE_TAG: 2026-09-27
+  # YOSYS_RELEASE_TAG: 2026-09-27
+  YOSYS_RELEASE_TAG: 2026-03-24
 
   # These are set later
   RELEASE_TAG: ""
@@ -37,6 +38,13 @@ jobs:
         with:
           release-tag-var: RELEASE_TAG
           package-tag-var: PACKAGE_TAG
+
+      # TODO: Delete this step when switching to windows .tgz upstream packages.
+      # https://github.com/zapta/tools-oss-cad-suite/commit/58143058ba6ca439d4bca6769a71fbe8e902bd50
+      - name: Install p7zip (7z command)
+        run: |
+          sudo apt-get update && sudo apt-get install -y p7zip-full
+
 
       - name: Checkout this repo
         uses: actions/checkout@v4
@@ -108,11 +116,11 @@ jobs:
         run: |
           ls -al _packages/*
 
-      - name: Scan the package for viruses
+      - name: Scan the packages for viruses
         uses: fpgawars/apio-workflows/.github/actions/scan-files-for-viruses@main
         with:
           file-patterns: |
-            _packages/apio-oss-cad-suite-*.tgz
+            _packages
 
       - name: Convert json build info to text
         uses: fpgawars/apio-workflows/.github/actions/json-to-text@main
@@ -188,3 +196,7 @@ jobs:
             _packages/apio-oss-cad-suite-darwin-arm64-${{env.PACKAGE_TAG}}.tgz
             _packages/apio-oss-cad-suite-linux-x86-64-${{env.PACKAGE_TAG}}.tgz
             _packages/apio-oss-cad-suite-windows-amd64-${{env.PACKAGE_TAG}}.tgz
+            _packages/parts-indexes/ICE40-PARTS-INDEX.json
+            _packages/parts-indexes/ECP5-PARTS-INDEX.json
+            _packages/parts-indexes/GOWIN-PARTS-INDEX.json
+            _packages/parts-indexes/MACHXO2-PARTS-INDEX.json

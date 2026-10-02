@@ -160,8 +160,10 @@ def get_platform_info(platform_id: str, yosys_package_tag: str) -> PlatformInfo:
             linux_x86_64_packager,
         ),
         "windows-amd64": PlatformInfo(
-            f"oss-cad-suite-windows-x64-{yosys_package_tag}.tgz",
-            ["tar", "zxf"],
+            # f"oss-cad-suite-windows-x64-{yosys_package_tag}.tgz",
+            # ["tar", "zxf"],
+            f"oss-cad-suite-windows-x64-{yosys_package_tag}.exe",
+            ["7z", "x"],
             windows_amd64_packager,
         ),
     }
