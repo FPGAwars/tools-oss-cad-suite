@@ -50,8 +50,9 @@ def rsync_yosys_package(yosys_dir: Path, package_dir: Path) -> None:
     # -- The flag 'q' is for 'quiet'.
     run(["rsync", "-aq", f"{yosys_dir}/", f"{package_dir}/"])
 
-    # -- Rename VERSION to YOSYS-VERSION
-    (package_dir / "VERSION").rename(package_dir / "YOSYS-VERSION")
+    # -- Remove the (yosys) VERSION file. We have that information in
+    # -- our own BUILD-INFO.json file.
+    (package_dir / "VERSION").unlink()
 
 
 def check_package_executables(package_dir: Path, executables: List[str]) -> None:
