@@ -83,10 +83,10 @@ def ice40_parts(suite):
                 variants.append(("-8k", ICE40_OVERSIZED[type_], chipdb_package))
             for id_suffix, nextpnr_type, nextpnr_package in variants:
                 parts[f"{stem}-{package}{id_suffix}"] = {
-                    "part-num": part_num,
-                    "family": family,
+                    # "part-num": part_num,
+                    # "family": family,
                     "generated": True,
-                    "default-definition": {
+                    "definition": {
                         "part-num": part_num,
                         "arch": "ice40",
                         "size": ICE40_TYPES[nextpnr_type][2],
@@ -125,10 +125,10 @@ def ecp5_parts(suite):
                 f"{series}-{luts}{letter}-{speed}{ECP5_PACKAGE_CODE[name]}{pins}C"
             )
             parts[part_num.lower()] = {
-                "part-num": part_num,
-                "family": series,
+                # "part-num": part_num,
+                # "family": series,
                 "generated": True,
-                "default-definition": {
+                "definition": {
                     "part-num": part_num,
                     "arch": "ecp5",
                     "size": f"{luts}k",
@@ -209,10 +209,10 @@ def gowin_parts(suite):
                 sys.exit(f"gowin {part}: add a device to GOWIN_PREFERRED_DEVICES")
         device = devs[0]
         parts[part.lower().replace("/", "-")] = {
-            "part-num": part,
-            "family": part.split("-")[0],
+            # "part-num": part,
+            # "family": part.split("-")[0],
             "generated": device not in GOWIN_UNUSABLE,
-            "default-definition": {
+            "definition": {
                 "part-num": part,
                 "arch": "gowin",
                 "size": GOWIN_SIZE[device],
