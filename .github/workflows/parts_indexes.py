@@ -77,7 +77,7 @@ def ice40_parts(suite):
             chipdb_package = f"{package}:{suffix}" if suffix else package
             if chipdb_package not in dies.get(die, ()):
                 sys.exit(f"ice40 {type_}: package {chipdb_package} not in die {die}")
-            part_num = f"{stem.upper()}-{package.upper()}"
+            vendor_part = f"{stem.upper()}-{package.upper()}"
             variants = [("", type_, package)]
             if type_ in ICE40_OVERSIZED:
                 variants.append(("-8k", ICE40_OVERSIZED[type_], chipdb_package))
@@ -87,12 +87,12 @@ def ice40_parts(suite):
                     # "family": family,
                     "generated": True,
                     "definition": {
-                        "part-num": part_num,
                         "arch": "ice40",
+                        "vendor-part": vendor_part,
                         "size": ICE40_TYPES[nextpnr_type][2],
                         "ice40-params": {
-                            "type": nextpnr_type,
-                            "package": nextpnr_package,
+                            "nextpnr-type": nextpnr_type,
+                            "nextpnr-package": nextpnr_package,
                         },
                     },
                 }
@@ -121,21 +121,21 @@ def ecp5_parts(suite):
         # -- iodb.json lists the packages nextpnr accepts (devices.json more).
         for package in iodb["packages"]:
             name, pins = re.fullmatch(r"([A-Z]+)(\d+)", package).groups()
-            part_num = (
+            vendor_part = (
                 f"{series}-{luts}{letter}-{speed}{ECP5_PACKAGE_CODE[name]}{pins}C"
             )
-            parts[part_num.lower()] = {
+            parts[vendor_part.lower()] = {
                 # "part-num": part_num,
                 # "family": series,
                 "generated": True,
                 "definition": {
-                    "part-num": part_num,
                     "arch": "ecp5",
+                    "vendor-part": vendor_part,
                     "size": f"{luts}k",
                     "ecp5-params": {
-                        "type": f"{type_prefix}{luts}k",
-                        "package": package,
-                        "speed": speed,
+                        "nextpnr-type": f"{type_prefix}{luts}k",
+                        "nextpnr-package": package,
+                        "nextpnr-speed": speed,
                     },
                 },
             }
@@ -196,28 +196,31 @@ def gowin_parts(suite):
 
     candidates = {}  # part -> the devices that serve it
     for device in devices:
-        for part in tables[device]:
-            candidates.setdefault(part, []).append(device)
+        for vendor_part in tables[device]:
+            candidates.setdefault(vendor_part, []).append(device)
     # -- nextpnr needs the family of a device that shares parts with another.
     shared = {d for devs in candidates.values() if len(devs) > 1 for d in devs}
 
     parts = {}
-    for part, devs in sorted(candidates.items()):
+    for vendor_part, devs in sorted(candidates.items()):
         if len(devs) > 1:
             devs = [d for d in devs if d in GOWIN_PREFERRED_DEVICES]
             if len(devs) != 1:
-                sys.exit(f"gowin {part}: add a device to GOWIN_PREFERRED_DEVICES")
+                sys.exit(
+                    f"gowin {vendor_part}: add a device to GOWIN_PREFERRED_DEVICES"
+                )
         device = devs[0]
-        parts[part.lower().replace("/", "-")] = {
+        parts[vendor_part.lower().replace("/", "-")] = {
             # "part-num": part,
             # "family": part.split("-")[0],
             "generated": device not in GOWIN_UNUSABLE,
             "definition": {
-                "part-num": part,
                 "arch": "gowin",
+                "vendor-part": vendor_part,
                 "size": GOWIN_SIZE[device],
                 "gowin-params": {
                     "yosys-family": gowin_yosys_family(device),
+                    "nextpnr-device": vendor_part,
                     "nextpnr-family": device if device in shared else "",
                     "packer-device": device,
                 },
@@ -229,43 +232,43 @@ def gowin_parts(suite):
 # =========================== MACHXO2 ===========================
 
 # -- Catalog only (apio has no machxo2 arch); commercial grade only.
-MACHXO2_PART = re.compile(r"(LC[A-Z0-9]+-\d+[A-Z]+)-(\d)([A-Z]+\d+)C")
+# MACHXO2_PART = re.compile(r"(LC[A-Z0-9]+-\d+[A-Z]+)-(\d)([A-Z]+\d+)C")
 
 
-def machxo2_parts(suite):
-    # -- nextpnr prints the list to stderr.
-    listing = subprocess.run(
-        [str(suite / "bin/nextpnr-machxo2"), "--list-devices"],
-        check=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-    ).stdout
-    database = suite / "share/trellis/database/devices.json"
-    families = json.loads(database.read_text(encoding="utf-8"))["families"]
-    variants = {}
-    for family in ("MachXO2", "MachXO3"):
-        for device, info in families[family]["devices"].items():
-            for variant, variant_info in info["variants"].items():
-                variants[variant] = (device, variant_info)
-    parts = {}
-    for name in listing.split():
-        match = MACHXO2_PART.fullmatch(name)
-        if not match:
-            continue
-        variant, speed, package = match.groups()
-        device, variant_info = variants[variant]
-        if int(speed) not in variant_info["speeds"]:
-            sys.exit(f"machxo2 {name}: speed not in devices.json")
-        parts[name.lower()] = {
-            "part-num": name,
-            "family": variant.split("-")[0],
-            "device": device,
-            "package": package,
-            "speed": speed,
-            "generated": True,
-        }
-    return parts
+# def machxo2_parts(suite):
+#     # -- nextpnr prints the list to stderr.
+#     listing = subprocess.run(
+#         [str(suite / "bin/nextpnr-machxo2"), "--list-devices"],
+#         check=True,
+#         stdout=subprocess.PIPE,
+#         stderr=subprocess.STDOUT,
+#         text=True,
+#     ).stdout
+#     database = suite / "share/trellis/database/devices.json"
+#     families = json.loads(database.read_text(encoding="utf-8"))["families"]
+#     variants = {}
+#     for family in ("MachXO2", "MachXO3"):
+#         for device, info in families[family]["devices"].items():
+#             for variant, variant_info in info["variants"].items():
+#                 variants[variant] = (device, variant_info)
+#     parts = {}
+#     for name in listing.split():
+#         match = MACHXO2_PART.fullmatch(name)
+#         if not match:
+#             continue
+#         variant, speed, package = match.groups()
+#         device, variant_info = variants[variant]
+#         if int(speed) not in variant_info["speeds"]:
+#             sys.exit(f"machxo2 {name}: speed not in devices.json")
+#         parts[name.lower()] = {
+#             "part-num": name,
+#             "family": variant.split("-")[0],
+#             "device": device,
+#             "package": package,
+#             "speed": speed,
+#             "generated": True,
+#         }
+#     return parts
 
 
 # =========================== json files ===========================
@@ -309,7 +312,7 @@ def generate(suite, release_tag):
         ("ice40", ice40_parts),
         ("ecp5", ecp5_parts),
         ("gowin", gowin_parts),
-        ("machxo2", machxo2_parts),
+        # ("machxo2", machxo2_parts),
     ):
         parts = dict(sorted(parts_function(suite).items()))
         bad_ids = [i for i in parts if not ID_FORMAT.match(i)]
