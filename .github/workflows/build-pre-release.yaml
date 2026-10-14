@@ -86,12 +86,12 @@ jobs:
 
       # The parts indexes do not depend on the platform: generated once, from
       # the linux suite, and copied into the three packages by build.py.
-      - name: Generate the parts indexes
+      - name: Generate the FPGA definitions
         run: |
-          python .github/workflows/parts_indexes.py \
+          python .github/workflows/fpgas_definitions.py \
               --yosys-release-tag "$YOSYS_RELEASE_TAG" \
               --release-tag "$RELEASE_TAG" \
-              --out _packages/parts-indexes
+              --out _packages
 
       - name: Build package [darwin-arm64]
         run: |
@@ -195,6 +195,4 @@ jobs:
             _packages/apio-oss-cad-suite-darwin-arm64-${{env.PACKAGE_TAG}}.tgz
             _packages/apio-oss-cad-suite-linux-x86-64-${{env.PACKAGE_TAG}}.tgz
             _packages/apio-oss-cad-suite-windows-amd64-${{env.PACKAGE_TAG}}.tgz
-            _packages/parts-indexes/ICE40-PARTS-INDEX.json
-            _packages/parts-indexes/ECP5-PARTS-INDEX.json
-            _packages/parts-indexes/GOWIN-PARTS-INDEX.json
+            _packages/FPGAS.jsonc
