@@ -338,12 +338,6 @@ def generate(suite) -> tuple[dict[str, dict], list[str]]:
     ]
 
     for arch, parts_function in architectures.items():
-        #     ("ice40", ice40_parts),
-        #     ("ecp5", ecp5_parts),
-        #     ("gowin", gowin_parts),
-        #     # ("machxo2", machxo2_parts),
-        # ):
-
         parts, skipped = parts_function(suite)
         bad_ids = [i for i in parts if not ID_FORMAT.match(i)]
         if bad_ids or not parts:
@@ -362,21 +356,8 @@ def generate(suite) -> tuple[dict[str, dict], list[str]]:
         for fpga_id, fpga_definition in parts.items():
             assert fpga_id not in fpga_definition, f"Duplicate fpga_id: {fpga_id}"
             fpgas_definitions[fpga_id] = fpga_definition
-        # fpgas_definitions[arch] = {
-        #     "schema": 8,
-        #     "date": release_tag.replace("-", ""),
-        #     "release-tag": release_tag,
-        #     "part-count": len(parts),
-        #     "generated-count": sum(p["generated"] for p in parts.values()),
-        #     "note": NOTES[arch],
-        #     "parts": parts,
-        # }
+
     return (fpgas_definitions, prefix_lines)
-
-
-# def write_json_file(path, json_dict):
-#     """Write a json file."""
-#     path.write_text(json.dumps(json_dict, indent=2) + "\n", encoding="utf-8")
 
 
 def download_suite(yosys_release_tag):
@@ -406,12 +387,8 @@ def main():
     suite = args.suite or download_suite(args.yosys_release_tag)
     fpgas_definitions, prefix_lines = generate(suite)
     args.out.mkdir(parents=True, exist_ok=True)
-    # for arch, data in fpgas_definitions.items():
-    # json_file = args.out / f"{arch.upper()}-PARTS-INDEX.json"
     file_path = args.out / "FPGAS.jsonc"
     print(f"Writing file {str(file_path)}")
-    # write_json_file(json_file, fpgas_definitions)
-    # print(f"{json_file}: {data['part-count']} parts")
     file_text = (
         "\n".join(prefix_lines)
         + "\n//\n"
