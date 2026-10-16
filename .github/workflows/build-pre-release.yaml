@@ -44,10 +44,8 @@ jobs:
       #   run: |
       #     sudo apt-get update && sudo apt-get install -y p7zip-full
 
-
       - name: Checkout this repo
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@v6
 
       - name: Get repository commit
         uses: fpgawars/apio-workflows/.github/actions/get-repo-info@main
@@ -156,18 +154,6 @@ jobs:
         run: |
           cat  > RELEASE-BODY.txt <<EOF
 
-          > ### Pre-release note
-          >
-          > This daily release was created as a pre-release and
-          > will be deleted after 5 days unless if it's marked as a stable release. To make
-          > this a  stable release, do the following:
-          > * Open the release for editing.
-          > * Turn off the \`Set as a pre-release\` checkbox below.
-          > * (optional) Turn on the \`Set as the latest release\` checkbox.
-          > * Remove this pre-release note.
-          > * (optional) Add release notes.
-          > * Click \`Update Release\` button to save your changes.
-
           ### Build info
 
           \`\`\`
@@ -176,6 +162,11 @@ jobs:
           EOF
 
           cat -n RELEASE-BODY.txt
+
+      - name: Append standard release text
+        uses: fpgawars/apio-workflows/.github/actions/append-std-release-text@main
+        with:
+          output-file: RELEASE-BODY.txt
 
       - name: Cleanup old pre-releases
         uses: fpgawars/apio-workflows/.github/actions/cleanup-old-prereleases@main
